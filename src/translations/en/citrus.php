@@ -4,7 +4,7 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 

@@ -4,13 +4,13 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus\controllers;
+namespace dentsucreativeuk\citrus\controllers;
 
-use whitespace\citrus\Citrus;
+use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use craft\web\Controller;

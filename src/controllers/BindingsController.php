@@ -4,21 +4,21 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus\controllers;
+namespace dentsucreativeuk\citrus\controllers;
 
-use whitespace\citrus\Citrus;
+use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use craft\web\Controller;
 
-use whitespace\citrus\records\BindingsRecord;
+use dentsucreativeuk\citrus\records\BindingsRecord;
 
-use whitespace\citrus\jobs\BanJob;
-use whitespace\citrus\jobs\PurgeJob;
+use dentsucreativeuk\citrus\jobs\BanJob;
+use dentsucreativeuk\citrus\jobs\PurgeJob;
 
 /**
  * BindingsController Controller

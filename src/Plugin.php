@@ -1,21 +1,21 @@
 <?php
 /**
- * citrus plugin for Craft CMS 3.x
+ * citrus plugin for Craft CMS
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus;
+namespace dentsucreativeuk\citrus;
 
-use whitespace\citrus\services\BindingsService;
-use whitespace\citrus\services\EntryService;
-use whitespace\citrus\services\UriService;
-use whitespace\citrus\services\CitrusService;
-use whitespace\citrus\variables\CitrusVariable;
-use whitespace\citrus\models\Settings;
+use dentsucreativeuk\citrus\services\BindingsService;
+use dentsucreativeuk\citrus\services\EntryService;
+use dentsucreativeuk\citrus\services\UriService;
+use dentsucreativeuk\citrus\services\CitrusService;
+use dentsucreativeuk\citrus\variables\CitrusVariable;
+use dentsucreativeuk\citrus\models\Settings;
 
 use Craft;
 use craft\base\Plugin;
@@ -77,7 +77,7 @@ class Citrus extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '0.0.2';
+    public string $schemaVersion = '0.0.2';
 
     // Public Methods
     // =========================================================================

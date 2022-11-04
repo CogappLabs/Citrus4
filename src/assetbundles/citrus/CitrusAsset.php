@@ -4,11 +4,11 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus\assetbundles\citrus;
+namespace dentsucreativeuk\citrus\assetbundles\citrus;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -43,7 +43,7 @@ class CitrusAsset extends AssetBundle
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = "@whitespace/citrus/assetbundles/citrus/dist";
+        $this->sourcePath = "@dentsucreativeuk\/citrus/assetbundles/citrus/dist";
 
         // define the dependencies
         $this->depends = [

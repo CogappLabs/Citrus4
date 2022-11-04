@@ -4,13 +4,13 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus\services;
+namespace dentsucreativeuk\citrus\services;
 
-use whitespace\citrus\Citrus;
+use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use craft\base\Component;
@@ -18,12 +18,12 @@ use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\MatrixBlock;
 
-use whitespace\citrus\helpers\BanHelper;
-use whitespace\citrus\helpers\PurgeHelper;
-use whitespace\citrus\records\BindingsRecord;
+use dentsucreativeuk\citrus\helpers\BanHelper;
+use dentsucreativeuk\citrus\helpers\PurgeHelper;
+use dentsucreativeuk\citrus\records\BindingsRecord;
 
-use whitespace\citrus\jobs\BanJob;
-use whitespace\citrus\jobs\PurgeJob;
+use dentsucreativeuk\citrus\jobs\BanJob;
+use dentsucreativeuk\citrus\jobs\PurgeJob;
 
 /**
  * CitrusService Service

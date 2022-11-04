@@ -1,8 +1,8 @@
 {
-    "name": "whitespace/citrus",
+    "name": "dentsucreativeuk\/citrus",
     "description": "Automatically purge and ban cached elements in Varnish",
     "type": "craft-plugin",
-    "version": "0.0.61",
+    "version": "4.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -11,31 +11,29 @@
         "citrus"
     ],
     "support": {
-        "docs": "https://github.com/Whitespacers/Citrus/citrus/blob/master/README.md",
-        "issues": "https://github.com/Whitespacers/Citrus/citrus/issues"
+        "docs": "https://github.com/dentsucreativeuk/Citrus4/blob/master/README.md",
+        "issues": "https://github.com/dentsucreativeuk/Citrus4/issues"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "Whitespace",
-            "homepage": "https://whitespacers.com"
+            "name": "Dentsu Creative",
+            "homepage": "https://www.dentsucreative.com"
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0",
-        "whitespace/varnish-connect": "^0.0.1"
+        "craftcms/cms": "^4.0.0",
+        "whitespace\/varnish-connect": "^0.0.1"
     },
     "autoload": {
         "psr-4": {
-          "whitespace\\citrus\\": "src/"
+          "dentsucreativeuk\\citrus\\": "src/"
         }
     },
     "extra": {
-        "name": "Citrus",
-        "handle": "citrus",
+        "name": "Citrus 4",
+        "handle": "citrus4",
         "hasCpSettings": false,
-        "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/Whitespacers/Citrus/citrus/master/CHANGELOG.md",
-        "class": "whitespace\\citrus\\Citrus"
+        "hasCpSection": true
     }
 }

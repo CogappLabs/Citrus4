@@ -1,7 +1,7 @@
 <?php
-namespace whitespace\citrus\helpers;
+namespace dentsucreativeuk\citrus\helpers;
 
-use whitespace\citrus\Citrus;
+use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use GuzzleHttp\Psr7\Request;

@@ -4,18 +4,18 @@
  *
  * Automatically purge and ban cached elements in Varnish
  *
- * @link      https://whitespacers.com
+ * @link      https://www.dentsucreative.com
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace whitespace\citrus\jobs;
+namespace dentsucreativeuk\citrus\jobs;
 
-use whitespace\citrus\Citrus;
+use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use craft\queue\BaseJob;
 
-use whitespace\citrus\helpers\BanHelper;
+use dentsucreativeuk\citrus\helpers\BanHelper;
 
 /**
  * BanJob job
@@ -26,7 +26,7 @@ use whitespace\citrus\helpers\BanHelper;
  *
  * You can use it like this:
  *
- * use whitespace\citrus\jobs\BanJob as BanJobJob;
+ * use dentsucreativeuk\citrus\jobs\BanJob as BanJobJob;
  *
  * $queue = Craft::$app->getQueue();
  * $jobId = $queue->push(new BanJobJob([
