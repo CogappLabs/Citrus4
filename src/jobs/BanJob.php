@@ -57,7 +57,7 @@ class BanJob extends BaseJob
     // Public Methods
     // =========================================================================
 
-    public function execute($queue)
+    public function execute($queue): void
     {
         $this->ban = new BanHelper();
 

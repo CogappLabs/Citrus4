@@ -11,6 +11,11 @@ class ResponseHelper
 	const CODE_ERROR_GENERAL = -1;
 	const CODE_ERROR_CURL = -2;
 
+	public $response;
+	public $code;
+	public $message;
+	public $data;
+
 	public function __construct($code, $message = '', $data = null)
 	{
 		$this->code = $code;
@@ -27,7 +32,7 @@ class ResponseHelper
 	{
 		$str = '';
 
-		foreach ($data as $key => $value) {
+		foreach ($this->data as $key => $value) {
 			$str .= sprintf("%s: %s\r\n", $key, $value);
 		}
 

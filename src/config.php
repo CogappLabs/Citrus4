@@ -23,8 +23,6 @@
  */
 
 return [
-
-    // This controls blah blah blah
     "varnishHosts" => [
         'public' => [
             'url' => '',

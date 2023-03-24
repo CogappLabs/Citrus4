@@ -15,7 +15,7 @@ use dentsucreativeuk\citrus\Citrus;
 use Craft;
 use craft\web\Controller;
 
-use \njpanderson\VarnishConnect;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 
 /**
  * BanController Controller
@@ -40,13 +40,13 @@ use \njpanderson\VarnishConnect;
 class CitrusController extends Controller
 {
 
-    use \whitespace\citrus\helpers\BaseHelper;
+    use BaseHelper;
 
     /**
      * @var    bool|array Allows anonymous access to this controller's actions.
      * @access protected
      */
-    protected $allowAnonymous = array('actionIndex');
+    protected array|int|bool $allowAnonymous = ['actionIndex'];
 
     private $socket;
 
@@ -84,7 +84,7 @@ class CitrusController extends Controller
         return $this->renderTemplate('citrus/index', $variables);
     }
 
-    public function actionPurgeBan()
+    public function actionPurgeban()
     {
         $type = Craft::$app->request->getBodyParam('purgeban_type');
         $query = Craft::$app->request->getBodyParam('query');

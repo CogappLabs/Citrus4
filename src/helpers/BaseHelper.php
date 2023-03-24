@@ -1,10 +1,10 @@
 <?php
+
 namespace dentsucreativeuk\citrus\helpers;
 
 use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
-use craft\helpers\UrlHelper;
 
 trait BaseHelper
 {
@@ -58,6 +58,15 @@ trait BaseHelper
 		// Sanity check uri
 		$uri['uri'] = $uri['uri'] == '__home__' ? '' : rtrim($uri['uri'], '/');
 
+		if (!count($hosts)) {
+			Citrus::log(
+				"Citrus — no host data for site! Have the hosts been set up correctly?",
+				'warning',
+				Citrus::getInstance()->settings->logAll,
+				false
+			);
+		}
+
 		foreach ($hosts as $id => $host) {
 			foreach ($host['url'] as $hostLocale => $hostUrl) {
 				$thisLocale = (
@@ -89,7 +98,7 @@ trait BaseHelper
 
 	protected function getVarnishHosts()
 	{
-		$hosts = Citrus::getInstance()->settings->varnishHosts;
+		$hosts = Citrus::getInstance()->hosts->getHosts();
 
 		if (!is_array($hosts) || empty($hosts)) {
 			$hosts = [];

@@ -17,6 +17,7 @@ use craft\web\Controller;
 
 use dentsucreativeuk\citrus\records\BindingsRecord;
 
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\BanJob;
 use dentsucreativeuk\citrus\jobs\PurgeJob;
 
@@ -43,7 +44,7 @@ use dentsucreativeuk\citrus\jobs\PurgeJob;
 class BindingsController extends Controller
 {
 
-    use \whitespace\citrus\helpers\BaseHelper;
+    use BaseHelper;
 
     // Protected Properties
     // =========================================================================
@@ -53,7 +54,7 @@ class BindingsController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index', 'section', 'save', 'test'];
+    protected array|int|bool $allowAnonymous = ['index', 'section', 'save', 'test'];
 
     // Public Methods
     // =========================================================================

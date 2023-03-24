@@ -10,17 +10,9 @@
 
 namespace dentsucreativeuk\citrus;
 
-use dentsucreativeuk\citrus\services\BindingsService;
-use dentsucreativeuk\citrus\services\EntryService;
-use dentsucreativeuk\citrus\services\UriService;
-use dentsucreativeuk\citrus\services\CitrusService;
-use dentsucreativeuk\citrus\variables\CitrusVariable;
-use dentsucreativeuk\citrus\models\Settings;
-
 use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
+use craft\base\Model;
 use craft\web\UrlManager;
 use craft\web\User;
 use craft\web\twig\variables\CraftVariable;
@@ -28,9 +20,16 @@ use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use craft\services\Elements;
-
 use yii\base\Event;
 
+use dentsucreativeuk\citrus\models\Settings;
+use dentsucreativeuk\citrus\services\BindingsService;
+use dentsucreativeuk\citrus\services\EntryService;
+use dentsucreativeuk\citrus\services\UriService;
+use dentsucreativeuk\citrus\services\CitrusService;
+use dentsucreativeuk\citrus\variables\CitrusVariable;
+use dentsucreativeuk\citrus\services\AwsEc2Service;
+use dentsucreativeuk\citrus\services\HostsService;
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
  * it as simple as we can, but the training wheels are off. A little prior knowledge is
@@ -56,15 +55,6 @@ class Citrus extends Plugin
 {
     // Static Properties
     // =========================================================================
-
-    /**
-     * Static property that is an instance of this plugin class so that it can be accessed via
-     * Citrus::$plugin
-     *
-     * @var Citrus
-     */
-    public static $plugin;
-
     const URI_TAG = 0;
     const URI_ELEMENT = 1;
     const URI_BINDING = 2;
@@ -79,24 +69,19 @@ class Citrus extends Plugin
      */
     public string $schemaVersion = '0.0.2';
 
+    public bool $hasCpSection = true;
+
     // Public Methods
     // =========================================================================
 
     /**
-     * Set our $plugin static property to this class so that it can be accessed via
-     * Citrus::$plugin
-     *
      * Called after the plugin class is instantiated; do any one-time initialization
      * here such as hooks and events.
-     *
-     * If you have a '/vendor/autoload.php' file, it will be loaded for you automatically;
-     * you do not need to load it in your init() method.
      *
      */
     public function init()
     {
         parent::init();
-        self::$plugin = $this;
 
         // Set components
         $this->setComponents([
@@ -104,6 +89,8 @@ class Citrus extends Plugin
             'entry' => EntryService::class,
             'uri' => UriService::class,
             'citrus' => CitrusService::class,
+            'ec2' => AwsEc2Service::class,
+            'hosts' => HostsService::class,
         ]);
 
         // Register our CP routes
@@ -112,6 +99,7 @@ class Citrus extends Plugin
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['citrus'] = 'citrus/citrus/index';
+                $event->rules['citrus/purgeban'] = 'citrus/citrus/purgeban';
                 $event->rules['citrus/pages'] = 'citrus/pages/index';
                 $event->rules['citrus/bindings'] = 'citrus/bindings/index';
                 $event->rules['citrus/bindings/section'] = 'citrus/bindings/section';
@@ -134,14 +122,20 @@ class Citrus extends Plugin
             }
         );
 
-        // Do something after we're installed
+        // Add/Remove citrus cookies
         Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function (PluginEvent $event) {
-                if ($event->plugin === $this) {
-                    // We were just installed
-                }
+            User::class,
+            User::EVENT_AFTER_LOGIN,
+            function (Event $event) {
+                $this->setCitrusCookie('1');
+            }
+        );
+
+        Event::on(
+            User::class,
+            User::EVENT_AFTER_LOGOUT,
+            function (Event $event) {
+                $this->setCitrusCookie();
             }
         );
 
@@ -185,40 +179,7 @@ class Citrus extends Plugin
             );
         }
 
-        // Add/Remove citrus cookies
-        Event::on(
-            User::class,
-            User::EVENT_AFTER_LOGIN,
-            function (Event $event) {
-                $this->setCitrusCookie('1');
-            }
-        );
-        Event::on(
-            User::class,
-            User::EVENT_AFTER_LOGOUT,
-            function (Event $event) {
-                $this->setCitrusCookie();
-            }
-        );
-
-/**
- * Logging in Craft involves using one of the following methods:
- *
- * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
- * Craft::info(): record a message that conveys some useful information.
- * Craft::warning(): record a warning message that indicates something unexpected has happened.
- * Craft::error(): record a fatal error that should be investigated as soon as possible.
- *
- * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
- *
- * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
- * the category to the method (prefixed with the fully qualified class name) where the constant appears.
- *
- * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
- * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
- *
- * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
- */
+        // Log loading the plugin
         Craft::info(
             Craft::t(
                 'citrus',
@@ -229,7 +190,7 @@ class Citrus extends Plugin
         );
     }
 
-    public function getCpNavItem()
+    public function getCpNavItem(): array
     {
         $item = parent::getCpNavItem();
         $item['subnav'] = [
@@ -246,7 +207,7 @@ class Citrus extends Plugin
      *
      * @return \craft\base\Model|null
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?Model
     {
         return new Settings();
     }

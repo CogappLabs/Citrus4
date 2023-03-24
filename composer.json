@@ -31,9 +31,10 @@
         }
     },
     "extra": {
-        "name": "Citrus 4",
-        "handle": "citrus4",
-        "hasCpSettings": false,
-        "hasCpSection": true
+        "handle": "citrus",
+        "name": "Citrus",
+        "developer": "Dentsu Creative UK",
+        "documentationUrl": "",
+        "class": "dentsucreativeuk\\citrus\\Citrus"
     }
 }

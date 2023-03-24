@@ -10,11 +10,11 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
 use craft\web\Controller;
 
+use dentsucreativeuk\citrus\helpers\BaseHelper;
+use dentsucreativeuk\citrus\Citrus;
 use dentsucreativeuk\citrus\jobs\PurgeJob;
 
 /**
@@ -39,18 +39,17 @@ use dentsucreativeuk\citrus\jobs\PurgeJob;
  */
 class PurgeController extends Controller
 {
-
-    use \whitespace\citrus\helpers\BaseHelper;
+    use BaseHelper;
 
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = ['test'];
+    // /**
+    //  * @var    bool|array Allows anonymous access to this controller's actions.
+    //  *         The actions must be in 'kebab-case'
+    //  * @access protected
+    //  */
+    // protected array|int|bool $allowAnonymous = ['test'];
 
     // Public Methods
     // =========================================================================
@@ -58,14 +57,18 @@ class PurgeController extends Controller
     private $elementId;
     private $numUris;
 
-    public function init()
+    public function init(): void
     {
+        parent::init();
+
         $this->elementId = (int) Craft::$app->request->getQueryParam('id');
         $this->numUris = (int) Craft::$app->request->getQueryParam('n', 10);
     }
 
     public function actionTest()
     {
+        $this->requireAdmin();
+
         if ($this->elementId) {
             $this->testElementId($this->elementId);
         } else {

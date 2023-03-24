@@ -3,7 +3,6 @@ namespace dentsucreativeuk\citrus\helpers;
 
 use dentsucreativeuk\citrus\Citrus;
 
-use Craft;
 use GuzzleHttp\Psr7\Request;
 
 class PurgeHelper
@@ -32,16 +31,14 @@ class PurgeHelper
 	private function sendPurge($id, $host, $url, $debug = false)
 	{
 		Citrus::log(
-                "CitrusDebug - Sending purge for: '{$url}'",
-                'info',
-                Citrus::getInstance()->settings->logAll,
-                false
-            );
-		$response = new ResponseHelper(
-			ResponseHelper::CODE_OK
+			"CitrusDebug - Sending purge for: '{$url}'",
+			'info',
+			Citrus::getInstance()->settings->logAll,
+			false
 		);
 
 		$client = new \GuzzleHttp\Client(['headers/Accept' => '*/*']);
+
 		$headers = array(
 			'Host' => $host
 		);

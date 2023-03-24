@@ -8,9 +8,8 @@
  * @copyright Copyright (c) 2018 Whitespace
  */
 
-namespace dentsucreativeuk\citrus\assetbundles\citrus;
+namespace dentsucreativeuk\citrus;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
@@ -32,7 +31,7 @@ use craft\web\assets\cp\CpAsset;
  * @package   Citrus
  * @since     0.0.1
  */
-class CitrusAsset extends AssetBundle
+class CitrusBundle extends AssetBundle
 {
     // Public Methods
     // =========================================================================
@@ -43,7 +42,7 @@ class CitrusAsset extends AssetBundle
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = "@dentsucreativeuk\/citrus/assetbundles/citrus/dist";
+        $this->sourcePath = "@dentsucreativeuk/citrus/resources";
 
         // define the dependencies
         $this->depends = [
@@ -53,11 +52,11 @@ class CitrusAsset extends AssetBundle
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
         $this->js = [
-            'js/Citrus.js',
+            'js/citrus.js',
         ];
 
         $this->css = [
-            'css/Citrus.css',
+            'css/citrus.css',
         ];
 
         parent::init();

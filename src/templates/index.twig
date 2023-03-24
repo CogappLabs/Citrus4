@@ -29,7 +29,7 @@
 {# The content of the CP Section#}
 {% set content %}
     <div id="tab-purge">
-		<form id="frm-purge" class="purgeban">
+		<form id="frm-purge" action="citrus/purgeban" class="purgeban">
 			<fieldset>
 				<div class="heading">
 					<label id="title-label" class="required" for="purge-uri">URI</label>
@@ -55,34 +55,34 @@
 	</div>
 
 	{% if bansSupported %}
-		<div id="tab-ban" class="hidden">
-			<form id="frm-ban" class="purgeban">
-				<fieldset>
-					<div class="heading">
-						<label id="title-label" class="required" for="ban-query">Full query</label>
+	<div id="tab-ban" class="hidden">
+		<form id="frm-ban" class="purgeban">
+			<fieldset>
+				<div class="heading">
+					<label id="title-label" class="required" for="ban-query">Full query</label>
+				</div>
+
+				<div class="purgeban-query">
+					<div class="select">
+						<select name="host">
+							<option value="">{{ 'Send to all Varnish hosts'|t }}</option>
+							{% for id, host in hosts %}
+							<option value="{{ id }}">{{ id }} ({{ host.hostName }})</option>
+							{% endfor %}
+						</select>
 					</div>
+					{# <a href="#" data-prefix-reveal="ban-prefix" class="prefix-reveal">&hellip;</a> #}
+					<input class="text" type="text" id="ban-query" name="query" autofocus="" autocomplete="off" placeholder="req.http.host == ${hostname} &amp;&amp; req.url ~ .*" value="req.http.host == ${hostname} &amp;&amp; req.url ~ .*" class="">
+					<input type="submit" class="btn submit" value="Send Ban Query">
+				</div>
 
-					<div class="purgeban-query">
-						<div class="select">
-							<select name="host">
-								<option value="">{{ 'Send to all Varnish hosts'|t }}</option>
-								{% for id, host in hosts %}
-								<option value="{{ id }}">{{ id }} ({{ host.hostName }})</option>
-								{% endfor %}
-							</select>
-						</div>
-						{# <a href="#" data-prefix-reveal="ban-prefix" class="prefix-reveal">&hellip;</a> #}
-						<input class="text" type="text" id="ban-query" name="query" autofocus="" autocomplete="off" placeholder="req.http.host == ${hostname} &amp;&amp; req.url ~ .*" value="req.http.host == ${hostname} &amp;&amp; req.url ~ .*" class="">
-						<input type="submit" class="btn submit" value="Send Ban Query">
-					</div>
+				{% include 'citrus/fragments/bankeys' with locales %}
+			</fieldset>
 
-					{% include 'citrus/fragments/bankeys' with locales %}
-				</fieldset>
-
-				<input type="hidden" name="purgeban_type" value="ban">
-				<input type="hidden" name="{{ craft.app.config.general.csrfTokenName }}" value="{{ craft.app.request.csrfToken }}">
-			</form>
-		</div>
+			<input type="hidden" name="purgeban_type" value="ban">
+			<input type="hidden" name="{{ craft.app.config.general.csrfTokenName }}" value="{{ craft.app.request.csrfToken }}">
+		</form>
+	</div>
 	{% endif %}
 
 	<div id="purgeban-output">

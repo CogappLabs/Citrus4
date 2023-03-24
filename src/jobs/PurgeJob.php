@@ -63,13 +63,13 @@ class PurgeJob extends BaseJob
      *
      * More info: https://github.com/yiisoft/yii2-queue
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
         $this->purge = new PurgeHelper();
 
         $totalSteps = count($this->uris);
-        for ($step = 0; $step < $totalSteps; $step++)
-        {
+
+        for ($step = 0; $step < $totalSteps; $step++) {
             $this->setProgress($queue, $step / $totalSteps);
 
             $this->purge->purge(
