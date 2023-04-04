@@ -10,9 +10,17 @@ use craft\db\Query;
 
 class HostsService extends Component
 {
+	/**
+	 * Get the available hosts
+	 */
 	public function getHosts()
 	{
-		// TODO: Add AWS Host support
+		if (is_callable(Citrus::getInstance()->settings['varnishHosts'])) {
+			// Call varnishHosts as function
+			return Citrus::getInstance()->settings['varnishHosts']();
+		}
+
+		// Fetch varnishHosts directly
 		return Citrus::getInstance()->settings->varnishHosts;
 	}
 }
