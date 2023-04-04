@@ -16,6 +16,7 @@ use Craft;
 use craft\base\Component;
 use dentsucreativeuk\citrus\records\EntryRecord;
 use dentsucreativeuk\citrus\records\UriRecord;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 
 /**
  * UriService Service
@@ -32,7 +33,7 @@ use dentsucreativeuk\citrus\records\UriRecord;
  */
 class UriService extends Component
 {
-    use \whitespace\citrus\helpers\BaseHelper;
+    use BaseHelper;
 
     // Public Methods
     // =========================================================================
