@@ -48,7 +48,7 @@ class CitrusService extends Component
      *
      * @param  mixed $event
      */
-    public function purgeElement($element, $purgeRelated = true, $debug = false)
+    public function purgeElement($element, $purgeRelated = false, $debug = false)
     {
         return $this->purgeElements(array($element), $purgeRelated, $debug);
     }
@@ -58,7 +58,7 @@ class CitrusService extends Component
      *
      * @param  mixed $event
      */
-    public function purgeElements($elements, $purgeRelated = true, $debug = false)
+    public function purgeElements($elements, $purgeRelated = false, $debug = false)
     {
         $tasks = array();
 
