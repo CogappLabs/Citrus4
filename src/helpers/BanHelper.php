@@ -41,6 +41,9 @@ class BanHelper
 
 	private function sendHTTP($id, $host, $query, $isFullQuery = false, $debug = false)
 	{
+		throw new \Exception('Banning over HTTP is not yet supported');
+
+		// TODO: Complete
 		$response = new ResponseHelper(
 			ResponseHelper::CODE_OK
 		);
@@ -57,6 +60,7 @@ class BanHelper
 		$headers[$banQueryHeader] = $banQuery;
 
 		Citrus::log(
+			// TODO: "$host['url'][Craft::$app->sites->currentSite->id]" does not work. Need to find better reference to the site.
 			"Sending BAN query to '{$host['url'][Craft::$app->sites->currentSite->id]}': '{$banQuery}'",
 			'info',
 			Citrus::getInstance()->settings->logAll,
