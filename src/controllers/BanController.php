@@ -14,7 +14,7 @@ use dentsucreativeuk\citrus\Citrus;
 
 use Craft;
 use craft\web\Controller;
-
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\BanJob;
 
 use \njpanderson\VarnishConnect;
@@ -42,7 +42,7 @@ use \njpanderson\VarnishConnect;
 class BanController extends Controller
 {
 
-    use \whitespace\citrus\helpers\BaseHelper;
+    use BaseHelper;
 
     // Protected Properties
     // =========================================================================
@@ -52,7 +52,7 @@ class BanController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['list', 'test'];
+    protected array|int|bool $allowAnonymous = ['list', 'test'];
 
     // Public Methods
     // =========================================================================
