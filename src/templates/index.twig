@@ -40,7 +40,7 @@
 						<select name="host">
 							<option value="">{{ 'Send to all Varnish hosts'|t }}</option>
 							{% for id, host in hosts %}
-							<option value="{{ id }}">{{ id }} ({{ host.hostName }})</option>
+							<option value="{{ id }}">{{ id }} ({{ host.hostName }} - {{ host.adminIP }})</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -67,7 +67,7 @@
 						<select name="host">
 							<option value="">{{ 'Send to all Varnish hosts'|t }}</option>
 							{% for id, host in hosts %}
-							<option value="{{ id }}">{{ id }} ({{ host.hostName }})</option>
+							<option value="{{ id }}">{{ id }} ({{ host.hostName }} - {{ host.adminIP }})</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -98,7 +98,7 @@
 						<select name="host">
 							<option value="">{{ 'All hosts'|t }}</option>
 							{% for id, host in adminHosts %}
-								<option value="{{ id }}">{{ id }} ({{ host.hostName }})</option>
+								<option value="{{ id }}">{{ id }} ({{ host.hostName }} - {{ host.adminIP }})</option>
 							{% endfor %}
 						</select>
 					</div>
