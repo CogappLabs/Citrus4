@@ -47,7 +47,7 @@ class CitrusService extends Component
      *
      * @param  mixed $event
      */
-    public function purgeElement($element, $purgeRelated = false, $debug = false)
+    public function purgeElement($element, $purgeRelated = false, $debug = false): array
     {
         return $this->purgeElements(array($element), $purgeRelated, $debug);
     }
@@ -57,7 +57,7 @@ class CitrusService extends Component
      *
      * @param  mixed $event
      */
-    public function purgeElements($elements, $purgeRelated = false, $debug = false)
+    public function purgeElements($elements, $purgeRelated = false, $debug = false): array
     {
         $tasks = array();
 
@@ -97,37 +97,31 @@ class CitrusService extends Component
 
             $uris = $this->uniqueUris($uris);
 
-            if (count($uris) > 0) {
-                array_push(
-                    $tasks,
-                    $this->makeTask('Citrus_Purge', array(
-                        'description' => null,
-                        'uris' => $uris,
-                        'debug' => $debug,
-                    ))
-                );
+            if ($uris !== []) {
+                $tasks[] = $this->makeTask('Citrus_Purge', array(
+                    'description' => null,
+                    'uris' => $uris,
+                    'debug' => $debug,
+                ));
             }
 
-            if (count($bans) > 0) {
-                array_push(
-                    $tasks,
-                    $this->makeTask('Citrus_Ban', array(
-                        'description' => null,
-                        'bans' => $bans,
-                        'debug' => $debug,
-                    ))
-                );
+            if ($bans !== []) {
+                $tasks[] = $this->makeTask('Citrus_Ban', array(
+                    'description' => null,
+                    'bans' => $bans,
+                    'debug' => $debug,
+                ));
             }
         }
 
         return $tasks;
     }
 
-    public function purgeURI($uri, $hostId = null)
+    public function purgeURI($uri, $hostId = null): array
     {
-        $purge = new PurgeHelper();
+        $purgeHelper = new PurgeHelper();
 
-        return $purge->purge($this->makeVarnishUri(
+        return $purgeHelper->purge($this->makeVarnishUri(
             $uri,
             null,
             Citrus::URI_ELEMENT,
@@ -135,11 +129,11 @@ class CitrusService extends Component
         ));
     }
 
-    public function banQuery($query, $isFullQuery = false, $hostId = null)
+    public function banQuery($query, $isFullQuery = false, $hostId = null): array
     {
-        $ban = new BanHelper();
+        $banHelper = new BanHelper();
 
-        return $ban->ban(array(
+        return $banHelper->ban(array(
             'query' => $query,
             'full' => $isFullQuery,
             'hostId' => $hostId,
@@ -148,8 +142,9 @@ class CitrusService extends Component
 
     /**
      * Gets URIs from section/entryType bindings
+     * @return mixed[]
      */
-    public function getBindingQueries($sectionId, $typeId, $bindType = null)
+    public function getBindingQueries($sectionId, $typeId, $bindType = null): array
     {
         $queries = array();
         $bindings = Citrus::getInstance()->bindings->getBindings(
@@ -191,7 +186,7 @@ class CitrusService extends Component
         $locale = null,
         $type = Citrus::URI_ELEMENT,
         $hostId = null,
-    ) {
+    ): array {
         if ($locale instanceof LocaleModel) {
             $locale = $locale->id;
         }
@@ -214,9 +209,8 @@ class CitrusService extends Component
      *
      * @param $element
      * @param $locale
-     * @return array
      */
-    private function getElementUris($element, $locale, $getRelated = true)
+    private function getElementUris($element, $locale, $getRelated = true): array
     {
         $uris = array();
 
@@ -229,37 +223,35 @@ class CitrusService extends Component
             }
 
             // If this is a matrix block, get the uri of matrix block owner
-            if (Craft::$app->getElements()->getElementTypeById($element->id) == "craft\elements\MatrixBlock") {
-                if ($element->owner->uri != '') {
-                    $uris[] = $this->makeVarnishUri($element->owner->uri, $locale);
-                }
+            if (Craft::$app->getElements()->getElementTypeById($element->id) == "craft\elements\MatrixBlock" && $element->owner->uri != '') {
+                $uris[] = $this->makeVarnishUri($element->owner->uri, $locale);
             }
 
             // Get related elements and their uris
             if ($getRelated) {
                 // get directly related entries
                 $relatedEntries = $this->getRelatedElementsOfType($element, $locale, 'entry');
-                foreach ($relatedEntries as $related) {
-                    if ($related->uri != '') {
-                        $uris[] = $this->makeVarnishUri($related->uri, $locale);
+                foreach ($relatedEntries as $relatedEntry) {
+                    if ($relatedEntry->uri != '') {
+                        $uris[] = $this->makeVarnishUri($relatedEntry->uri, $locale);
                     }
                 }
                 unset($relatedEntries);
 
                 // get directly related categories
                 $relatedCategories = $this->getRelatedElementsOfType($element, $locale, 'category');
-                foreach ($relatedCategories as $related) {
-                    if ($related->uri != '') {
-                        $uris[] = $this->makeVarnishUri($related->uri, $locale);
+                foreach ($relatedCategories as $relatedCategory) {
+                    if ($relatedCategory->uri != '') {
+                        $uris[] = $this->makeVarnishUri($relatedCategory->uri, $locale);
                     }
                 }
                 unset($relatedCategories);
 
                 // get directly related matrix block and its owners uri
                 $relatedMatrixes = $this->getRelatedElementsOfType($element, $locale, 'matrixblock');
-                foreach ($relatedMatrixes as $relatedMatrixBlock) {
-                    if ($relatedMatrixBlock->owner->uri != '') {
-                        $uris[] = $this->makeVarnishUri($relatedMatrixBlock->owner->uri, $locale);
+                foreach ($relatedMatrixes as $relatedMatrix) {
+                    if ($relatedMatrix->owner->uri != '') {
+                        $uris[] = $this->makeVarnishUri($relatedMatrix->owner->uri, $locale);
                     }
                 }
                 unset($relatedMatrixes);
@@ -271,8 +263,9 @@ class CitrusService extends Component
 
     /**
      * Gets URIs from tags attached to the front-end
+     * @return mixed[]
      */
-    private function getTagUris($elementId)
+    private function getTagUris(?int $elementId): array
     {
         $uris = array();
         $tagUris = Citrus::getInstance()->uri->getAllURIsByEntryId($elementId);
@@ -297,7 +290,7 @@ class CitrusService extends Component
      * @param $elementType
      * @return mixed
      */
-    private function getRelatedElementsOfType($element, $locale, $elementTypeHandle)
+    private function getRelatedElementsOfType($element, $locale, string $elementTypeHandle)
     {
         $elementType = Craft::$app->elements->getElementTypeByRefHandle($elementTypeHandle);
         if (!$elementType) {
@@ -325,9 +318,8 @@ class CitrusService extends Component
      *
      *
      * @param $uris
-     * @return array
      */
-    private function getMappedUris($uris)
+    private function getMappedUris($uris): array
     {
         $mappedUris = array();
         $map = $this->getSetting('purgeUriMap');
@@ -340,7 +332,7 @@ class CitrusService extends Component
                     if (is_array($mappedVal)) {
                         $mappedUris = array_merge($mappedUris, $mappedVal);
                     } else {
-                        array_push($mappedUris, $mappedVal);
+                        $mappedUris[] = $mappedVal;
                     }
                 }
             }
@@ -356,7 +348,7 @@ class CitrusService extends Component
      * @param $uris
      * @param $locale
      */
-    private function makeTask($taskName, $settings = array())
+    private function makeTask(string $taskName, array $settings = array())
     {
         $job = false;
         Citrus::log(
@@ -377,6 +369,7 @@ class CitrusService extends Component
         if ($job) {
             return Craft::$app->queue->push($job);
         }
+        return null;
     }
 
     /**
@@ -391,7 +384,10 @@ class CitrusService extends Component
         return Craft::$app->config->get($name, 'citrus');
     }
 
-    private function uniqueUris($uris)
+    /**
+     * @return mixed[]
+     */
+    private function uniqueUris(array $uris): array
     {
         $found = array();
         $result = array();
@@ -406,13 +402,12 @@ class CitrusService extends Component
             }
 
             if (isset($uri['uri']) && !in_array($uri['uri'], $found[$uri['locale']])) {
-                array_push($found[$uri['locale']], $uri['uri']);
-
+                $found[$uri['locale']][] = $uri['uri'];
                 // reset any locales to null if required
                 if ($uri['locale'] === '<none>') {
                     $uri['locale'] = null;
                 }
-                array_push($result, $uri);
+                $result[] = $uri;
             }
         }
 

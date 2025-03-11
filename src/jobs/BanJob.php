@@ -57,6 +57,7 @@ class BanJob extends BaseJob
     // Public Methods
     // =========================================================================
 
+    #[\Override]
     public function execute($queue): void
     {
         $this->ban = new BanHelper();
@@ -91,6 +92,7 @@ class BanJob extends BaseJob
      *
      * @return string The default task description
      */
+    #[\Override]
     protected function defaultDescription(): string
     {
         return Craft::t('citrus', 'Banning from Varnish cache');

@@ -59,8 +59,9 @@ class BanController extends Controller
     private $query;
     private $isFullQuery;
     private $hostId;
-    private $socket;
+    private ?\njpanderson\VarnishConnect\Socket $socket = null;
 
+    #[\Override]
     public function init(): void
     {
         parent::init();
@@ -70,7 +71,7 @@ class BanController extends Controller
         $this->isFullQuery = Craft::$app->request->getQueryParam('f', false);
     }
 
-    public function actionTest()
+    public function actionTest(): void
     {
         if (!empty($this->query)) {
             $bans = array(
@@ -97,25 +98,25 @@ class BanController extends Controller
         Craft::$app->getQueue()->run();
     }
 
-    public function actionList()
+    public function actionList(): \yii\web\Response
     {
         $variables = array(
             'hostList' => array(),
         );
         $hostId = $this->getPostWithDefault('host', null);
 
-        foreach ($this->getVarnishHosts() as $id => $host) {
-            if (($id === $hostId || $hostId === null) && $host['canDoAdminBans']) {
+        foreach ($this->getVarnishHosts() as $id => $varnishHost) {
+            if (($id === $hostId || $hostId === null) && $varnishHost['canDoAdminBans']) {
                 $this->socket = new VarnishConnect\Socket(
-                    $host['adminIP'],
-                    $host['adminPort'],
-                    $host['adminSecret']
+                    $varnishHost['adminIP'],
+                    $varnishHost['adminPort'],
+                    $varnishHost['adminSecret']
                 );
 
                 try {
                     $this->socket->connect();
                     $variables['hostList'][$id]['banList'] = $this->socket->getBanList();
-                    $variables['hostList'][$id]['hostName'] = $host['hostName'];
+                    $variables['hostList'][$id]['hostName'] = $varnishHost['hostName'];
                     $variables['hostList'][$id]['id'] = $id;
                 } catch (\Exception $e) {
                     $variables['hostList'][$id]['adminError'] = $e->getMessage();

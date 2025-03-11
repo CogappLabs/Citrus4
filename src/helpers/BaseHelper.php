@@ -13,21 +13,21 @@ trait BaseHelper
     public function getPostWithDefault($var, $default = null)
     {
         $value = Craft::$app->request->getBodyParam($var);
-        return (!empty($value) ? $value : $default);
+        return (empty($value) ? $default : $value);
     }
 
     public function getParamWithDefault($var, $default = null)
     {
         $value = Craft::$app->request->getParam($var);
-        return (!empty($value) ? $value : $default);
+        return (empty($value) ? $default : $value);
     }
 
-    protected function hash($str)
+    protected function hash($str): string
     {
         return hash($this->hashAlgo, $str);
     }
 
-    protected function uuid()
+    protected function uuid(): string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -58,7 +58,7 @@ trait BaseHelper
         // Sanity check uri
         $uri['uri'] = $uri['uri'] == '__home__' ? '' : rtrim($uri['uri'], '/');
 
-        if (!count($hosts)) {
+        if (count($hosts) === 0) {
             Citrus::log(
                 "Citrus — no host data for site! Have the hosts been set up correctly?",
                 'warning',
@@ -81,26 +81,24 @@ trait BaseHelper
                         $url .= '/';
                     }
 
-                    array_push($urls, array(
+                    $urls[] = array(
                         'hostId' => $id,
                         'hostName' => $host['hostName'],
                         'locale' => $uri['locale'],
                         'url' => $url,
-                    ));
+                    );
                 }
             }
         }
 
-        $urls = $this->_uniqueUrls($urls);
-
-        return $urls;
+        return $this->_uniqueUrls($urls);
     }
 
     protected function getVarnishHosts()
     {
         $hosts = Citrus::getInstance()->hosts->getHosts();
 
-        if (!is_array($hosts) || empty($hosts)) {
+        if (!is_array($hosts) || $hosts === []) {
             $hosts = [];
         }
 
@@ -131,29 +129,29 @@ trait BaseHelper
         return $hosts;
     }
 
-    protected function getVarnishAdminHosts()
+    protected function getVarnishAdminHosts(): ?array
     {
         $hosts = $this->getVarnishHosts();
 
-        return array_filter($hosts, function($host) {
+        return array_filter($hosts, function(array $host) {
             return $host['canDoAdminBans'];
         });
     }
 
-    protected function parseGuzzleResponse($httpRequest, $httpResponse, $showUri = false)
+    protected function parseGuzzleResponse($httpRequest, $httpResponse, $showUri = false): \dentsucreativeuk\citrus\helpers\ResponseHelper
     {
-        $response = new ResponseHelper(
+        $responseHelper = new ResponseHelper(
             ResponseHelper::CODE_OK
         );
 
         if ($showUri) {
-            $response->message = sprintf(
+            $responseHelper->message = sprintf(
                 '%s %s',
                 $httpRequest->getUri(),
                 $httpResponse->getReasonPhrase()
             );
         } else {
-            $response->message = sprintf(
+            $responseHelper->message = sprintf(
                 '%s:%s %s',
                 $httpRequest->getUri()->getHost(),
                 $httpRequest->getUri()->getPort(),
@@ -163,75 +161,73 @@ trait BaseHelper
 
         $statusCode = $httpResponse->getStatusCode();
         if ($statusCode != 200) {
-            $response->code = $statusCode;
+            $responseHelper->code = $statusCode;
         }
 
-        return $response;
+        return $responseHelper;
     }
 
-    protected function parseGuzzleError($hostId, $e, $debug = false)
+    protected function parseGuzzleError(string $hostId, $e, $debug = false): \dentsucreativeuk\citrus\helpers\ResponseHelper
     {
-        $response = new ResponseHelper(
+        $responseHelper = new ResponseHelper(
             ResponseHelper::CODE_ERROR_GENERAL
         );
 
         if ($e instanceof \GuzzleHttp\Exception\BadResponseException) {
-            $response->message = 'Error on "' . $hostId . '(' . $e->getResponse()->getStatusCode() . ' - ' .
+            $responseHelper->message = 'Error on "' . $hostId . '(' . $e->getResponse()->getStatusCode() . ' - ' .
                     $e->getResponse()->getReasonPhrase() . ')';
 
             Citrus::log(
-                $response->message,
+                $responseHelper->message,
                 'error',
                 true,
                 $debug
             );
         } elseif ($e instanceof \GuzzleHttp\Exception\CurlException) {
-            $response->code = ResponseHelper::CODE_ERROR_CURL;
-            $response->message = 'cURL Error on "' . $hostId . '" URL "' . $e->getMessage();
+            $responseHelper->code = ResponseHelper::CODE_ERROR_CURL;
+            $responseHelper->message = 'cURL Error on "' . $hostId . '" URL "' . $e->getMessage();
 
             Citrus::log(
-                $response->message,
+                $responseHelper->message,
                 'error',
                 true,
                 $debug
             );
         } elseif ($e instanceof \Exception) {
-            $response->message = 'Error on "' . $hostId . '" URL "' . $e->getMessage();
+            $responseHelper->message = 'Error on "' . $hostId . '" URL "' . $e->getMessage();
 
             Citrus::log(
-                $response->message,
+                $responseHelper->message,
                 'error',
                 true,
                 $debug
             );
         }
 
-        return $response;
+        return $responseHelper;
     }
 
-    protected function getTemplateStandardVars(array $customVariables)
+    protected function getTemplateStandardVars(array $customVariables): array
     {
         $variables = array();
         $locales = array();
 
-        foreach (Craft::$app->i18n->getEditableLocales() as $locale) {
-            array_push($locales, $locale);
+        foreach (Craft::$app->i18n->getEditableLocales() as $editableLocale) {
+            $locales[] = $editableLocale;
         }
 
         $variables['locales'] = $locales;
 
-        $variables = array_merge($customVariables, $variables);
-
-        return $variables;
+        return array_merge($customVariables, $variables);
     }
 
-    private function _uniqueUrls($urls)
+    private function _uniqueUrls($urls): ?array
     {
         $found = array();
 
-        return array_filter($urls, function($url) use ($found) {
+        return array_filter($urls, function(array $url) use ($found) {
             if (!in_array($url['url'], $found)) {
-                array_push($found, $url['url']);
+                $found[] = $url['url'];
                 return true;
             }
         });

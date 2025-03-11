@@ -10,26 +10,26 @@ class PurgeHelper
 {
     use BaseHelper;
 
-    public function purge(array $uri, $debug = false)
+    /**
+     * @return mixed[]
+     */
+    public function purge(array $uri, $debug = false): array
     {
         $response = array();
 
         foreach ($this->getUrls($uri) as $url) {
-            array_push(
-                $response,
-                $this->sendPurge(
-                    $url['hostId'],
-                    $url['hostName'],
-                    $url['url'],
-                    $debug
-                )
+            $response[] = $this->sendPurge(
+                $url['hostId'],
+                $url['hostName'],
+                $url['url'],
+                $debug
             );
         }
 
         return $response;
     }
 
-    private function sendPurge($id, $host, $url, $debug = false)
+    private function sendPurge(string $id, $host, $url, $debug = false): \dentsucreativeuk\citrus\helpers\ResponseHelper
     {
         Citrus::log(
             "CitrusDebug - Sending purge for: '{$url}'",

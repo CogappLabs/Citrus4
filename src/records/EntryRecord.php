@@ -47,6 +47,7 @@ class EntryRecord extends ActiveRecord
     *
     * @return string the table name
     */
+    #[\Override]
     public static function tableName()
     {
         return '{{%citrus_entry}}';

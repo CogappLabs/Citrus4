@@ -40,8 +40,8 @@ class EntryService extends Component
     }
 
     public function saveEntry(
-        Citrus_EntryRecord $entry,
-    ) {
-        $entry->save();
+        Citrus_EntryRecord $citrusEntryRecord,
+    ): void {
+        $citrusEntryRecord->save();
     }
 }

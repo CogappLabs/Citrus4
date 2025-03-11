@@ -47,11 +47,13 @@ class UriRecord extends ActiveRecord
     *
     * @return string the table name
     */
+    #[\Override]
     public static function tableName()
     {
         return '{{%citrus_uri}}';
     }
 
+    #[\Override]
     public function afterDelete()
     {
         foreach ($this->entries as $entry) {

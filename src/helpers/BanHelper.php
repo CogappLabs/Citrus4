@@ -12,26 +12,23 @@ class BanHelper
 {
     use BaseHelper;
 
-    private $socket = array();
+    private array $socket = array();
 
     public const BAN_PREFIX = 'req.http.host == ${hostname} && req.url ~ ';
 
-    public function ban(array $ban, $debug = false)
+    /**
+     * @return mixed[]
+     */
+    public function ban(array $ban, $debug = false): array
     {
         $response = array();
 
-        foreach ($this->getVarnishHosts() as $id => $host) {
+        foreach ($this->getVarnishHosts() as $id => $varnishHost) {
             if ($id === $ban['hostId'] || $ban['hostId'] === null) {
-                if ($host['canDoAdminBans']) {
-                    array_push(
-                        $response,
-                        $this->sendAdmin($id, $host, $ban['query'], $ban['full'], $debug)
-                    );
+                if ($varnishHost['canDoAdminBans']) {
+                    $response[] = $this->sendAdmin($varnishHost, $ban['query'], $ban['full'], $debug);
                 } else {
-                    array_push(
-                        $response,
-                        $this->sendHTTP($id, $host, $ban['query'], $ban['full'], $debug)
-                    );
+                    $response[] = $this->sendHTTP();
                 }
             }
         }
@@ -39,56 +36,14 @@ class BanHelper
         return $response;
     }
 
-    private function sendHTTP($id, $host, $query, $isFullQuery = false, $debug = false)
+    private function sendHTTP(): never
     {
         throw new \Exception('Banning over HTTP is not yet supported');
-
-        // TODO: Complete
-        $response = new ResponseHelper(
-            ResponseHelper::CODE_OK
-        );
-
-        $client = new \GuzzleHttp\Client(['headers/Accept' => '*/*']);
-
-        $banQueryHeader = Citrus::getInstance()->settings->banQueryHeader;
-        $headers = array(
-            'Host' => $host['hostName'],
-        );
-
-        $banQuery = $this->parseBan($host, $query, $isFullQuery);
-
-        $headers[$banQueryHeader] = $banQuery;
-
-        Citrus::log(
-            // TODO: "$host['url'][Craft::$app->sites->currentSite->id]" does not work. Need to find better reference to the site.
-            "Sending BAN query to '{$host['url'][Craft::$app->sites->currentSite->id]}': '{$banQuery}'",
-            'info',
-            Citrus::getInstance()->settings->logAll,
-            $debug
-        );
-
-        // Ban requests always go to / but with a header determining the ban query
-        $request = new Request(
-            'BAN',
-            $host['url'][Craft::$app->sites->currentSite->id],
-            $headers
-        );
-
-        try {
-            $httpResponse = $client->send($request);
-            return $this->parseGuzzleResponse($request, $httpResponse);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            return $this->parseGuzzleError($id, $e, $debug);
-        } catch (\GuzzleHttp\Exception\CurlException $e) {
-            return $this->parseGuzzleError($id, $e, $debug);
-        } catch (Exception $e) {
-            return $this->parseGuzzleError($id, $e, $debug);
-        }
     }
 
-    private function sendAdmin($id, $host, $query, $isFullQuery = false, $debug = false)
+    private function sendAdmin(array $host, $query, $isFullQuery = false, $debug = false): \dentsucreativeuk\citrus\helpers\ResponseHelper
     {
-        $response = new ResponseHelper(
+        $responseHelper = new ResponseHelper(
             ResponseHelper::CODE_OK
         );
 
@@ -108,44 +63,44 @@ class BanHelper
 
             if ($result !== true) {
                 if ($result !== null) {
-                    $response->code = $result['code'];
-                    $response->message = "Ban error: {$result['code']} - '" .
-                        join($result['message'], '" "') .
+                    $responseHelper->code = $result['code'];
+                    $responseHelper->message = "Ban error: {$result['code']} - '" .
+                        implode($result['message'], '" "') .
                         "'";
 
                     Citrus::log(
-                        $response->message,
+                        $responseHelper->message,
                         'error',
                         true,
                         $debug
                     );
                 } else {
-                    $response->code = ResponseHelper::CODE_ERROR_GENERAL;
-                    $response->message = "Ban error: could not send to '{$host['adminIP']}'";
+                    $responseHelper->code = ResponseHelper::CODE_ERROR_GENERAL;
+                    $responseHelper->message = "Ban error: could not send to '{$host['adminIP']}'";
 
                     Citrus::log(
-                        $response->message,
+                        $responseHelper->message,
                         'error',
                         true,
                         $debug
                     );
                 }
             } else {
-                $response->message = sprintf('BAN "%s" added successfully', $banQuery);
+                $responseHelper->message = sprintf('BAN "%s" added successfully', $banQuery);
             }
         } catch (\Exception $e) {
-            $response->code = ResponseHelper::CODE_ERROR_GENERAL;
-            $response->message = 'Ban error: ' . $e->getMessage();
+            $responseHelper->code = ResponseHelper::CODE_ERROR_GENERAL;
+            $responseHelper->message = 'Ban error: ' . $e->getMessage();
 
             Citrus::log(
-                $response->message,
+                $responseHelper->message,
                 'error',
                 true,
                 $debug
             );
         }
 
-        return $response;
+        return $responseHelper;
     }
 
     private function getSocket($ip, $port, $secret)
@@ -165,7 +120,7 @@ class BanHelper
         return $this->socket[$ip];
     }
 
-    private function parseBan($host, $query, $isFullQuery = false)
+    private function parseBan(array $host, $query, $isFullQuery = false): array|string
     {
         if (!$isFullQuery) {
             $query = self::BAN_PREFIX . $query;
@@ -174,18 +129,17 @@ class BanHelper
         $find = ['${hostname}'];
         $replace = [$host['hostName']];
 
-        foreach (Craft::$app->i18n->getEditableLocales() as $locale) {
-            array_push($find, '${baseUrl-' . $locale->id . '}');
+        foreach (Craft::$app->i18n->getEditableLocales() as $editableLocale) {
+            $find[] = '${baseUrl-' . $editableLocale->id . '}';
 
-            if (isset($host['url'][$locale->id])) {
-                array_push($replace, $host['url'][$locale->id]);
+            if (isset($host['url'][$editableLocale->id])) {
+                $replace[] = $host['url'][$editableLocale->id];
             }
         }
 
         // run through parsing steps
         $query = str_replace($find, $replace, $query);
-        $query = str_replace('\\', '\\\\', $query);
 
-        return $query;
+        return str_replace('\\', '\\\\', $query);
     }
 }

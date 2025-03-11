@@ -70,10 +70,10 @@ class CitrusController extends Controller
         ]);
 
         if ($bansSupported) {
-            array_push($variables['tabs'], [
+            $variables['tabs'][] = [
                 'label' => 'Ban',
                 'url' => '#tab-ban',
-            ]);
+            ];
         }
 
         if (Craft::$app->request->getBodyParam('purgeban_type')) {
@@ -106,10 +106,9 @@ class CitrusController extends Controller
                     'value' => Craft::$app->request->getCsrfToken(),
                 ),
             ));
-        } else {
-            Craft::$app->getSession()->setNotice(Craft::t('app','Cache cleared.'));
-
-            $this->redirect('citrus');
         }
+        Craft::$app->getSession()->setNotice(Craft::t('app','Cache cleared.'));
+        $this->redirect('citrus');
+        return null;
     }
 }

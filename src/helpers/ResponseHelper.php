@@ -20,12 +20,13 @@ class ResponseHelper
         $this->data = ($data !== null ? $data : array());
     }
 
-    public function __toString()
+    #[\Override]
+    public function __toString(): string
     {
         return $this->code . ' ' . $this->message;
     }
 
-    public function writeData($return = false)
+    public function writeData($return = false): ?string
     {
         $str = '';
 
@@ -38,5 +39,6 @@ class ResponseHelper
         }
 
         echo $str;
+        return null;
     }
 }

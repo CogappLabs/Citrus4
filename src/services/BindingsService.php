@@ -58,8 +58,9 @@ class BindingsService extends Component
 
     /**
      * Returns the current CMS sections with binding counts.
+     * @return array<mixed, array<'bindings'|'craftSection', mixed>>
      */
-    public function getSections()
+    public function getSections(): array
     {
         $result = [];
 
@@ -78,8 +79,9 @@ class BindingsService extends Component
 
     /**
      * Returns the binding counts, grouped by section.
+     * @return mixed[]
      */
-    public function getBindingCounts()
+    public function getBindingCounts(): array
     {
         $result = [];
 
@@ -99,7 +101,7 @@ class BindingsService extends Component
     /**
      * Clears the current bindings for a section.
      */
-    public function clearBindings(int $sectionId)
+    public function clearBindings(int $sectionId): bool
     {
         BindingsRecord::deleteAll(
             'sectionId = ' . $sectionId

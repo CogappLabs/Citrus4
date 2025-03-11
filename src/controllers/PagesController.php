@@ -53,7 +53,7 @@ class PagesController extends Controller
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/controllersExample
      */
-    public function actionIndex()
+    public function actionIndex(): \yii\web\Response
     {
         $variables = array(
             'title' => 'Citrus - Pages',

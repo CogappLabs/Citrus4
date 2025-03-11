@@ -51,6 +51,7 @@ class BindingsRecord extends ActiveRecord
     *
     * @return string the table name
     */
+    #[\Override]
     public static function tableName()
     {
         return '{{%citrus_bindings}}';

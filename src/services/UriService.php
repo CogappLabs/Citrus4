@@ -38,7 +38,7 @@ class UriService extends Component
     // Public Methods
     // =========================================================================
 
-    public function saveURIEntry(string $pageUri, int $entryId, string $locale)
+    public function saveURIEntry(string $pageUri, int $entryId, string $locale): void
     {
         $uriHash = $this->hash($pageUri);
 
@@ -49,20 +49,20 @@ class UriService extends Component
 
         $uri->uri = $pageUri;
         $uri->uriHash = $uriHash;
-        $uri->locale = (!empty($locale) ? $locale : null);
+        $uri->locale = ($locale === '' || $locale === '0' ? null : $locale);
 
         $this->saveURI($uri);
 
         // Save Entry record
-        $entry = new EntryRecord();
+        $entryRecord = new EntryRecord();
 
-        $entry->uriId = $uri->id;
-        $entry->entryId = $entryId;
+        $entryRecord->uriId = $uri->id;
+        $entryRecord->entryId = $entryId;
 
-        Craft::$app->citrus_entry->saveEntry($entry);
+        Craft::$app->citrus_entry->saveEntry($entryRecord);
     }
 
-    public function deleteURI(string $pageUri)
+    public function deleteURI(string $pageUri): void
     {
         $uriHash = $this->hash($pageUri);
 
@@ -109,8 +109,8 @@ class UriService extends Component
     }
 
     public function saveURI(
-        UriRecord $uri,
-    ) {
-        $uri->save();
+        UriRecord $uriRecord,
+    ): void {
+        $uriRecord->save();
     }
 }

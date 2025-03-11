@@ -6,12 +6,12 @@ class HTTPHelper
 {
     public function send(
         $ip,
-        $host,
-        $uri,
+        string $host,
+        string $uri,
         $port = 80,
-        $method = 'PURGE',
+        string $method = 'PURGE',
         array $headers = array(),
-    ) {
+    ): array {
         $response = '';
 
         $fp = @fsockopen(
@@ -53,7 +53,7 @@ class HTTPHelper
             // get http code from header
             preg_match('/HTTP\/[\d.]+\s(\d+)/', $response[0][0], $matches);
 
-            if (is_array($matches) && count($matches) === 2) {
+            if (count($matches) === 2) {
                 $response_code = (int) $matches[1];
             }
 
@@ -62,8 +62,7 @@ class HTTPHelper
                 'headers' => $response[0],
                 '_body' => (isset($response[1]) ? $response[1] : null),
             );
-        } else {
-            throw new Exception('Socket could not be opened to host. ' . $errstr);
         }
+        throw new Exception('Socket could not be opened to host. ' . $errstr);
     }
 }

@@ -53,6 +53,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
+    #[\Override]
     public function safeUp()
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
@@ -77,6 +78,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
+    #[\Override]
     public function safeDown()
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
@@ -165,48 +167,31 @@ class Install extends Migration
     {
         // citrus_bindings table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_bindings}}',
-                'sectionId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_bindings}}',
             'sectionId'
         );
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_bindings}}',
-                'typeId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_bindings}}',
             'typeId'
         );
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
 
         // citrus_entry table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_entry}}',
-                'uriId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_entry}}',
             'uriId',
             true
         );
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_entry}}',
-                'entryId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_entry}}',
             'entryId',
             true
@@ -214,25 +199,19 @@ class Install extends Migration
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
 
         // citrus_uri table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_uri}}',
-                'uriHash',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_uri}}',
             'uriHash'
         );
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
@@ -248,7 +227,7 @@ class Install extends Migration
 
     // citrus_entry table
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%citrus_entry}}', 'uriId'),
+            $this->db->getForeignKeyName(),
             '{{%citrus_entry}}',
             'uriId',
             '{{%citrus_uri}}',
