@@ -30,6 +30,13 @@
           "dentsucreativeuk\\citrus\\": "src/"
         }
     },
+    "scripts": {
+        "ecs": "ecs check",
+        "ecs:fix": "ecs check --fix",
+        "phpstan": "phpstan --memory-limit=1G",
+        "rector": "rector process --dry-run",
+        "rector:fix": "rector process"
+    },
     "repositories": [
       {
         "type": "vcs",
@@ -48,5 +55,12 @@
             "yiisoft/yii2-composer": true,
             "craftcms/plugin-installer": true
         }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "craftcms/phpstan": "dev-main",
+        "craftcms/rector": "dev-main",
+        "craftcms/ecs": "dev-main"
     }
 }
