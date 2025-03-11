@@ -30,6 +30,12 @@
           "dentsucreativeuk\\citrus\\": "src/"
         }
     },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/CogappLabs/varnish-connect.git"
+      }
+    ],
     "extra": {
         "handle": "citrus",
         "name": "Citrus",

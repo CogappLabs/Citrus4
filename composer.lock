@@ -6291,12 +6291,12 @@
             "version": "0.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Whitespacers/varnish-connect.git",
+                "url": "https://github.com/CogappLabs/varnish-connect.git",
                 "reference": "b9264a9b9ff15b5d29c4926b6e496811ab5cae40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Whitespacers/varnish-connect/zipball/b9264a9b9ff15b5d29c4926b6e496811ab5cae40",
+                "url": "https://api.github.com/repos/CogappLabs/varnish-connect/zipball/b9264a9b9ff15b5d29c4926b6e496811ab5cae40",
                 "reference": "b9264a9b9ff15b5d29c4926b6e496811ab5cae40",
                 "shasum": ""
             },
