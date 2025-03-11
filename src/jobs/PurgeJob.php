@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\jobs;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\queue\BaseJob;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\PurgeHelper;
 

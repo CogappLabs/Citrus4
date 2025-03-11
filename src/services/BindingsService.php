@@ -10,11 +10,11 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Component;
 use craft\db\Query;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\records\BindingsRecord;
 
@@ -42,7 +42,7 @@ class BindingsService extends Component
     public function getBindings(int $sectionId, int $typeId = 0, $bindType = '')
     {
         $attrs = [
-            'sectionId' => $sectionId
+            'sectionId' => $sectionId,
         ];
 
         if ($typeId !== 0) {
@@ -69,7 +69,7 @@ class BindingsService extends Component
         foreach ($sections as $section) {
             $result[] = array(
                 'bindings' => isset($bindings[$section->id]) ? $bindings[$section->id] : 0,
-                'craftSection' => $section
+                'craftSection' => $section,
             );
         }
 
@@ -117,7 +117,7 @@ class BindingsService extends Component
 
         foreach ($data as $entryType => $bindings) {
             foreach ($bindings as $binding) {
-                $record = new BindingsRecord;
+                $record = new BindingsRecord();
                 $record->sectionId = $sectionId;
                 $record->typeId = $entryType;
                 $record->bindType = $binding['bindType'];

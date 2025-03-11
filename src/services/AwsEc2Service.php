@@ -2,11 +2,7 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
-use Craft;
 use craft\base\Component;
-use craft\db\Query;
 
 /**
  * AWS EC2 Service
@@ -16,5 +12,5 @@ use craft\db\Query;
  */
 class AwsEc2Service extends Component
 {
-	// ...
+    // ...
 }

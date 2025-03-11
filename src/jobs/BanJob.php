@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\jobs;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\queue\BaseJob;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\BanHelper;
 
@@ -62,8 +62,7 @@ class BanJob extends BaseJob
         $this->ban = new BanHelper();
 
         $totalSteps = count($this->bans);
-        for ($step = 0; $step < $totalSteps; $step++)
-        {
+        for ($step = 0; $step < $totalSteps; $step++) {
             $this->setProgress($queue, $step / $totalSteps);
 
             if (!isset($this->bans[$step]['full'])) {

@@ -10,9 +10,9 @@
 
 namespace dentsucreativeuk\citrus\variables;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * citrus Variable

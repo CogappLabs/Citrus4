@@ -10,20 +10,20 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Component;
 use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\MatrixBlock;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\BanHelper;
 use dentsucreativeuk\citrus\helpers\PurgeHelper;
-use dentsucreativeuk\citrus\records\BindingsRecord;
-
 use dentsucreativeuk\citrus\jobs\BanJob;
+
 use dentsucreativeuk\citrus\jobs\PurgeJob;
+use dentsucreativeuk\citrus\records\BindingsRecord;
 
 /**
  * CitrusService Service
@@ -40,7 +40,6 @@ use dentsucreativeuk\citrus\jobs\PurgeJob;
  */
 class CitrusService extends Component
 {
-
     public $settings = array();
 
     /**
@@ -90,7 +89,7 @@ class CitrusService extends Component
                         $element->type->id,
                         array(
                             BindingsRecord::TYPE_BAN,
-                            BindingsRecord::TYPE_FULLBAN
+                            BindingsRecord::TYPE_FULLBAN,
                         )
                     ));
                 }
@@ -104,7 +103,7 @@ class CitrusService extends Component
                     $this->makeTask('Citrus_Purge', array(
                         'description' => null,
                         'uris' => $uris,
-                        'debug' => $debug
+                        'debug' => $debug,
                     ))
                 );
             }
@@ -115,7 +114,7 @@ class CitrusService extends Component
                     $this->makeTask('Citrus_Ban', array(
                         'description' => null,
                         'bans' => $bans,
-                        'debug' => $debug
+                        'debug' => $debug,
                     ))
                 );
             }
@@ -126,7 +125,7 @@ class CitrusService extends Component
 
     public function purgeURI($uri, $hostId = null)
     {
-        $purge = new PurgeHelper;
+        $purge = new PurgeHelper();
 
         return $purge->purge($this->makeVarnishUri(
             $uri,
@@ -138,12 +137,12 @@ class CitrusService extends Component
 
     public function banQuery($query, $isFullQuery = false, $hostId = null)
     {
-        $ban = new BanHelper;
+        $ban = new BanHelper();
 
         return $ban->ban(array(
             'query' => $query,
             'full' => $isFullQuery,
-            'hostId' => $hostId
+            'hostId' => $hostId,
         ));
     }
 
@@ -176,7 +175,7 @@ class CitrusService extends Component
                 // Multiple bind types are requested
                 $queries[] = array(
                     'query' => $binding->query,
-                    'full' => ($binding->bindType === BindingsRecord::TYPE_FULLBAN)
+                    'full' => ($binding->bindType === BindingsRecord::TYPE_FULLBAN),
                 );
             } else {
                 // One bind type is requested (but not purge)
@@ -191,7 +190,7 @@ class CitrusService extends Component
         $uri,
         $locale = null,
         $type = Citrus::URI_ELEMENT,
-        $hostId = null
+        $hostId = null,
     ) {
         if ($locale instanceof LocaleModel) {
             $locale = $locale->id;
@@ -204,7 +203,7 @@ class CitrusService extends Component
             'uri' => $uri,
             'locale' => $locale,
             'host' => $hostId,
-            'type' => $type
+            'type' => $type,
         );
     }
 
@@ -305,7 +304,7 @@ class CitrusService extends Component
             return array();
         }
 
-        switch($elementTypeHandle) {
+        switch ($elementTypeHandle) {
             case 'category':
                 $criteria = Category::find();
                 break;
@@ -398,7 +397,6 @@ class CitrusService extends Component
         $result = array();
 
         foreach ($uris as $uri) {
-
             if (!isset($uri['locale']) || empty($uri['locale'])) {
                 $uri['locale'] = '<none>';
             }
@@ -412,7 +410,7 @@ class CitrusService extends Component
 
                 // reset any locales to null if required
                 if ($uri['locale'] === '<none>') {
-                    $uri['locale'] = NULL;
+                    $uri['locale'] = null;
                 }
                 array_push($result, $uri);
             }

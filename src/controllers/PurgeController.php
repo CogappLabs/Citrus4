@@ -13,8 +13,8 @@ namespace dentsucreativeuk\citrus\controllers;
 use Craft;
 use craft\web\Controller;
 
-use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\Citrus;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\PurgeJob;
 
 /**
@@ -103,7 +103,8 @@ class PurgeController extends Controller
         Craft::$app->getQueue()->run();
     }
 
-    private function fillUris($prefix, int $count = 1) {
+    private function fillUris($prefix, int $count = 1)
+    {
         $result = array();
 
         for ($a = 0; $a < $count; $a += 1) {

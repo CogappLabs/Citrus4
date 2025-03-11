@@ -11,25 +11,25 @@
 namespace dentsucreativeuk\citrus;
 
 use Craft;
-use craft\base\Plugin;
 use craft\base\Model;
+use craft\base\Plugin;
+use craft\events\RegisterUrlRulesEvent;
+use craft\services\Elements;
+use craft\web\twig\variables\Cp;
+use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\User;
-use craft\web\twig\variables\CraftVariable;
-use craft\events\RegisterUrlRulesEvent;
-use craft\events\RegisterCpNavItemsEvent;
-use craft\web\twig\variables\Cp;
-use craft\services\Elements;
+use dentsucreativeuk\citrus\models\Settings;
+
+use dentsucreativeuk\citrus\services\AwsEc2Service;
+use dentsucreativeuk\citrus\services\BindingsService;
+use dentsucreativeuk\citrus\services\CitrusService;
+use dentsucreativeuk\citrus\services\EntryService;
+use dentsucreativeuk\citrus\services\HostsService;
+use dentsucreativeuk\citrus\services\UriService;
+use dentsucreativeuk\citrus\variables\CitrusVariable;
 use yii\base\Event;
 
-use dentsucreativeuk\citrus\models\Settings;
-use dentsucreativeuk\citrus\services\BindingsService;
-use dentsucreativeuk\citrus\services\EntryService;
-use dentsucreativeuk\citrus\services\UriService;
-use dentsucreativeuk\citrus\services\CitrusService;
-use dentsucreativeuk\citrus\variables\CitrusVariable;
-use dentsucreativeuk\citrus\services\AwsEc2Service;
-use dentsucreativeuk\citrus\services\HostsService;
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
  * it as simple as we can, but the training wheels are off. A little prior knowledge is
@@ -55,9 +55,9 @@ class Citrus extends Plugin
 {
     // Static Properties
     // =========================================================================
-    const URI_TAG = 0;
-    const URI_ELEMENT = 1;
-    const URI_BINDING = 2;
+    public const URI_TAG = 0;
+    public const URI_ELEMENT = 1;
+    public const URI_BINDING = 2;
 
     // Public Properties
     // =========================================================================
@@ -97,7 +97,7 @@ class Citrus extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
+            function(RegisterUrlRulesEvent $event) {
                 $event->rules['citrus'] = 'citrus/citrus/index';
                 $event->rules['citrus/purgeban'] = 'citrus/citrus/purgeban';
                 $event->rules['citrus/pages'] = 'citrus/pages/index';
@@ -115,7 +115,7 @@ class Citrus extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('citrus', CitrusVariable::class);
@@ -126,7 +126,7 @@ class Citrus extends Plugin
         Event::on(
             User::class,
             User::EVENT_AFTER_LOGIN,
-            function (Event $event) {
+            function(Event $event) {
                 $this->setCitrusCookie('1');
             }
         );
@@ -134,7 +134,7 @@ class Citrus extends Plugin
         Event::on(
             User::class,
             User::EVENT_AFTER_LOGOUT,
-            function (Event $event) {
+            function(Event $event) {
                 $this->setCitrusCookie();
             }
         );
@@ -145,7 +145,7 @@ class Citrus extends Plugin
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_SAVE_ELEMENT,
-                function (Event $event) use ($purgeRelated) {
+                function(Event $event) use ($purgeRelated) {
                     // element saved
                     Citrus::getInstance()->citrus->purgeElement($event->element, $purgeRelated);
                 }
@@ -154,7 +154,7 @@ class Citrus extends Plugin
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_DELETE_ELEMENT,
-                function (Event $event) use ($purgeRelated) {
+                function(Event $event) use ($purgeRelated) {
                     // element deleted
                     Citrus::getInstance()->citrus->purgeElement($event->element, $purgeRelated);
                 }
@@ -163,7 +163,7 @@ class Citrus extends Plugin
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_PERFORM_ACTION,
-                function (Event $event) use ($purgeRelated) {
+                function(Event $event) use ($purgeRelated) {
                     //entry deleted via element action
                     $action = $event->action->className();
                     if ($action == 'Delete') {
@@ -223,7 +223,7 @@ class Citrus extends Plugin
         return Craft::$app->view->renderTemplate(
             'citrus/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->getSettings(),
             ]
         );
     }
@@ -232,7 +232,7 @@ class Citrus extends Plugin
         $message,
         $level = 'info',
         $override = false,
-        $debug = false
+        $debug = false,
     ) {
         if ($debug) {
             // Also write to screen

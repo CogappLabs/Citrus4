@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\web\Controller;
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * PagesController Controller
@@ -37,7 +37,6 @@ use craft\web\Controller;
  */
 class PagesController extends Controller
 {
-
     // Protected Properties
     // =========================================================================
 
@@ -57,7 +56,7 @@ class PagesController extends Controller
     public function actionIndex()
     {
         $variables = array(
-            'title' => 'Citrus - Pages'
+            'title' => 'Citrus - Pages',
         );
 
         return $this->renderTemplate('citrus/pages/index', $variables);

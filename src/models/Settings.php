@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\models;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Model;
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * Citrus Settings Model

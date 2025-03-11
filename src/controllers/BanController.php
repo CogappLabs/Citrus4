@@ -10,14 +10,14 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\web\Controller;
+use dentsucreativeuk\citrus\Citrus;
 use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\BanJob;
 
-use \njpanderson\VarnishConnect;
+use njpanderson\VarnishConnect;
 
 /**
  * BanController Controller
@@ -41,7 +41,6 @@ use \njpanderson\VarnishConnect;
  */
 class BanController extends Controller
 {
-
     use BaseHelper;
 
     // Protected Properties
@@ -76,7 +75,7 @@ class BanController extends Controller
         if (!empty($this->query)) {
             $bans = array(
                 'query' => $this->query,
-                'full' => $this->isFullQuery
+                'full' => $this->isFullQuery,
             );
         } else {
             $bans = array(
@@ -84,14 +83,14 @@ class BanController extends Controller
                 array('query' => '.*\.gif', 'hostId' => $this->hostId),
                 array('query' => '^/testing', 'hostId' => $this->hostId),
                 array('query' => 'admin', 'hostId' => $this->hostId),
-                array('query' => '\?.+$', 'hostId' => $this->hostId)
+                array('query' => '\?.+$', 'hostId' => $this->hostId),
             );
         }
 
         $settings = array(
             'description' => null,
             'bans' => $bans,
-            'debug' => true
+            'debug' => true,
         );
 
         Craft::$app->queue->push(new BanJob($settings));
@@ -101,7 +100,7 @@ class BanController extends Controller
     public function actionList()
     {
         $variables = array(
-            'hostList' => array()
+            'hostList' => array(),
         );
         $hostId = $this->getPostWithDefault('host', null);
 

@@ -10,13 +10,13 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Component;
+use dentsucreativeuk\citrus\Citrus;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\records\EntryRecord;
 use dentsucreativeuk\citrus\records\UriRecord;
-use dentsucreativeuk\citrus\helpers\BaseHelper;
 
 /**
  * UriService Service
@@ -88,7 +88,7 @@ class UriService extends Component
         }
 
         $uri = UriRecord::model()->findByAttributes(array(
-          'uriHash' => $uriHash
+          'uriHash' => $uriHash,
         ));
 
         if ($uri !== null) {
@@ -103,13 +103,13 @@ class UriService extends Component
         return UriRecord::find()->with(array(
             'entries' => array(
                 'select' => false,
-                'condition' => 'entryId = ' . $entryId
-            )
+                'condition' => 'entryId = ' . $entryId,
+            ),
         ))->all();
     }
 
     public function saveURI(
-        UriRecord $uri
+        UriRecord $uri,
     ) {
         $uri->save();
     }
