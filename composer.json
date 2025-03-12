@@ -2,7 +2,7 @@
     "name": "dentsucreativeuk\/citrus",
     "description": "Automatically purge and ban cached elements in Varnish",
     "type": "craft-plugin",
-    "version": "4.1.0",
+    "version": "5.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^4.0.0",
+        "craftcms/cms": "^5.0.0",
         "whitespace\/varnish-connect": "^0.0.1"
     },
     "autoload": {

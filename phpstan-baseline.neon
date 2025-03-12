@@ -61,6 +61,11 @@ parameters:
 			path: src/controllers/BindingsController.php
 
 		-
+			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$sections\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$bindings\\.$#"
 			count: 4
 			path: src/controllers/BindingsController.php
@@ -144,16 +149,6 @@ parameters:
 			message: "#^Property dentsucreativeuk\\\\citrus\\\\controllers\\\\CitrusController\\:\\:\\$socket is unused\\.$#"
 			count: 1
 			path: src/controllers/CitrusController.php
-
-		-
-			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$id\\.$#"
-			count: 1
-			path: src/controllers/PurgeController.php
-
-		-
-			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$title\\.$#"
-			count: 1
-			path: src/controllers/PurgeController.php
 
 		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$citrus\\.$#"
@@ -266,6 +261,11 @@ parameters:
 			path: src/records/UriRecord.php
 
 		-
+			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$sections\\.$#"
+			count: 1
+			path: src/services/BindingsService.php
+
+		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$bindType\\.$#"
 			count: 1
 			path: src/services/BindingsService.php
@@ -302,6 +302,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method craft\\\\services\\\\Config\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Call to static method find\\(\\) on an unknown class craft\\\\elements\\\\MatrixBlock\\.$#"
 			count: 1
 			path: src/services/CitrusService.php
 
