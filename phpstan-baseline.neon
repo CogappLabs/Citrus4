@@ -1,0 +1,391 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$citrus\\.$#"
+			count: 3
+			path: src/Citrus.php
+
+		-
+			message: "#^Access to an undefined property yii\\\\base\\\\Event\\:\\:\\$action\\.$#"
+			count: 1
+			path: src/Citrus.php
+
+		-
+			message: "#^Access to an undefined property yii\\\\base\\\\Event\\:\\:\\$criteria\\.$#"
+			count: 1
+			path: src/Citrus.php
+
+		-
+			message: "#^Access to an undefined property yii\\\\base\\\\Event\\:\\:\\$element\\.$#"
+			count: 2
+			path: src/Citrus.php
+
+		-
+			message: "#^Parameter \\#5 \\$domain of function setcookie expects string, null given\\.$#"
+			count: 1
+			path: src/Citrus.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/controllers/BanController.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\queue\\\\Queue\\:\\:run\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/BanController.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/controllers/BanController.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/controllers/BanController.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/controllers/BanController.php
+
+		-
+			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$section\\.$#"
+			count: 2
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$type\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$bindings\\.$#"
+			count: 4
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$citrus\\.$#"
+			count: 2
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\queue\\\\Queue\\:\\:run\\(\\)\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Instantiated class dentsucreativeuk\\\\citrus\\\\controllers\\\\Exception not found\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Instantiated class dentsucreativeuk\\\\citrus\\\\controllers\\\\HttpException not found\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Throwing object of an unknown class dentsucreativeuk\\\\citrus\\\\controllers\\\\Exception\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Throwing object of an unknown class dentsucreativeuk\\\\citrus\\\\controllers\\\\HttpException\\.$#"
+			count: 1
+			path: src/controllers/BindingsController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$citrus\\.$#"
+			count: 2
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Property dentsucreativeuk\\\\citrus\\\\controllers\\\\CitrusController\\:\\:\\$socket is unused\\.$#"
+			count: 1
+			path: src/controllers/CitrusController.php
+
+		-
+			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Access to an undefined property craft\\\\base\\\\ElementInterface\\:\\:\\$title\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$citrus\\.$#"
+			count: 2
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Call to an undefined method yii\\\\queue\\\\Queue\\:\\:run\\(\\)\\.$#"
+			count: 2
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/controllers/PurgeController.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/helpers/BanHelper.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/helpers/BanHelper.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/helpers/BanHelper.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/helpers/BanHelper.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, string given\\.$#"
+			count: 1
+			path: src/helpers/BanHelper.php
+
+		-
+			message: "#^Instantiated class dentsucreativeuk\\\\citrus\\\\helpers\\\\Exception not found\\.$#"
+			count: 1
+			path: src/helpers/HTTPHelper.php
+
+		-
+			message: "#^Throwing object of an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\Exception\\.$#"
+			count: 1
+			path: src/helpers/HTTPHelper.php
+
+		-
+			message: "#^Variable \\$response_code might not be defined\\.$#"
+			count: 1
+			path: src/helpers/HTTPHelper.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Caught class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Caught class dentsucreativeuk\\\\citrus\\\\helpers\\\\Exception not found\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/helpers/PurgeHelper.php
+
+		-
+			message: "#^Property dentsucreativeuk\\\\citrus\\\\models\\\\Settings\\:\\:\\$varnishHosts \\(string\\) does not accept default value of type array\\.$#"
+			count: 1
+			path: src/models/Settings.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\UriRecord\\:\\:\\$entries\\.$#"
+			count: 1
+			path: src/records/UriRecord.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$bindType\\.$#"
+			count: 1
+			path: src/services/BindingsService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$query\\.$#"
+			count: 1
+			path: src/services/BindingsService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$sectionId\\.$#"
+			count: 1
+			path: src/services/BindingsService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$typeId\\.$#"
+			count: 1
+			path: src/services/BindingsService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$bindings\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$uri\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Access to property \\$id on an unknown class dentsucreativeuk\\\\citrus\\\\services\\\\LocaleModel\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Call to an undefined method craft\\\\services\\\\Config\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Class dentsucreativeuk\\\\citrus\\\\services\\\\LocaleModel not found\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Method dentsucreativeuk\\\\citrus\\\\services\\\\CitrusService\\:\\:getMappedUris\\(\\) is unused\\.$#"
+			count: 1
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$event$#"
+			count: 2
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Variable \\$criteria might not be defined\\.$#"
+			count: 3
+			path: src/services/CitrusService.php
+
+		-
+			message: "#^Call to method save\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\services\\\\Citrus_EntryRecord\\.$#"
+			count: 1
+			path: src/services/EntryService.php
+
+		-
+			message: "#^Call to static method model\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\services\\\\Citrus_EntryRecord\\.$#"
+			count: 1
+			path: src/services/EntryService.php
+
+		-
+			message: "#^Parameter \\$citrusEntryRecord of method dentsucreativeuk\\\\citrus\\\\services\\\\EntryService\\:\\:saveEntry\\(\\) has invalid type dentsucreativeuk\\\\citrus\\\\services\\\\Citrus_EntryRecord\\.$#"
+			count: 1
+			path: src/services/EntryService.php
+
+		-
+			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$citrus_entry\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\EntryRecord\\:\\:\\$entryId\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\EntryRecord\\:\\:\\$uriId\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Call to an undefined static method dentsucreativeuk\\\\citrus\\\\records\\\\UriRecord\\:\\:model\\(\\)\\.$#"
+			count: 2
+			path: src/services/UriService.php
+
+		-
+			message: "#^Call to method getMessage\\(\\) on an unknown class GuzzleHttp\\\\Exception\\\\CurlException\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Call to static method baseSiteUrl\\(\\) on an unknown class dentsucreativeuk\\\\citrus\\\\helpers\\\\UrlHelper\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Class GuzzleHttp\\\\Exception\\\\CurlException not found\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Instantiated class dentsucreativeuk\\\\citrus\\\\services\\\\Exception not found\\.$#"
+			count: 1
+			path: src/services/UriService.php
+
+		-
+			message: "#^Throwing object of an unknown class dentsucreativeuk\\\\citrus\\\\services\\\\Exception\\.$#"
+			count: 1
+			path: src/services/UriService.php

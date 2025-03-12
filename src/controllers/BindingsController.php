@@ -48,11 +48,6 @@ class BindingsController extends Controller
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
     protected array|int|bool $allowAnonymous = ['index', 'section', 'save', 'test'];
 
     // Public Methods

@@ -41,10 +41,6 @@ class CitrusController extends Controller
 {
     use BaseHelper;
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     * @access protected
-     */
     protected array|int|bool $allowAnonymous = ['actionIndex'];
 
     private $socket;
