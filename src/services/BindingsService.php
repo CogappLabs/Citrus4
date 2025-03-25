@@ -10,11 +10,11 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Component;
 use craft\db\Query;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\records\BindingsRecord;
 
@@ -42,7 +42,7 @@ class BindingsService extends Component
     public function getBindings(int $sectionId, int $typeId = 0, $bindType = '')
     {
         $attrs = [
-            'sectionId' => $sectionId
+            'sectionId' => $sectionId,
         ];
 
         if ($typeId !== 0) {
@@ -58,8 +58,9 @@ class BindingsService extends Component
 
     /**
      * Returns the current CMS sections with binding counts.
+     * @return array<mixed, array<'bindings'|'craftSection', mixed>>
      */
-    public function getSections()
+    public function getSections(): array
     {
         $result = [];
 
@@ -69,7 +70,7 @@ class BindingsService extends Component
         foreach ($sections as $section) {
             $result[] = array(
                 'bindings' => isset($bindings[$section->id]) ? $bindings[$section->id] : 0,
-                'craftSection' => $section
+                'craftSection' => $section,
             );
         }
 
@@ -78,8 +79,9 @@ class BindingsService extends Component
 
     /**
      * Returns the binding counts, grouped by section.
+     * @return mixed[]
      */
-    public function getBindingCounts()
+    public function getBindingCounts(): array
     {
         $result = [];
 
@@ -99,7 +101,7 @@ class BindingsService extends Component
     /**
      * Clears the current bindings for a section.
      */
-    public function clearBindings(int $sectionId)
+    public function clearBindings(int $sectionId): bool
     {
         BindingsRecord::deleteAll(
             'sectionId = ' . $sectionId
@@ -117,7 +119,7 @@ class BindingsService extends Component
 
         foreach ($data as $entryType => $bindings) {
             foreach ($bindings as $binding) {
-                $record = new BindingsRecord;
+                $record = new BindingsRecord();
                 $record->sectionId = $sectionId;
                 $record->typeId = $entryType;
                 $record->bindType = $binding['bindType'];

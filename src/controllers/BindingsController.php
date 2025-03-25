@@ -10,16 +10,16 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
+use Craft;
+
+use craft\web\Controller;
 use dentsucreativeuk\citrus\Citrus;
 
-use Craft;
-use craft\web\Controller;
-
-use dentsucreativeuk\citrus\records\BindingsRecord;
-
 use dentsucreativeuk\citrus\helpers\BaseHelper;
+
 use dentsucreativeuk\citrus\jobs\BanJob;
 use dentsucreativeuk\citrus\jobs\PurgeJob;
+use dentsucreativeuk\citrus\records\BindingsRecord;
 
 /**
  * BindingsController Controller
@@ -43,38 +43,32 @@ use dentsucreativeuk\citrus\jobs\PurgeJob;
  */
 class BindingsController extends Controller
 {
-
     use BaseHelper;
 
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
     protected array|int|bool $allowAnonymous = ['index', 'section', 'save', 'test'];
 
     // Public Methods
     // =========================================================================
 
-    const BINDINGS_TABLE_PREFIX = 'bindingsType_';
+    public const BINDINGS_TABLE_PREFIX = 'bindingsType_';
 
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/controllersExample
      */
-    public function actionIndex()
+    public function actionIndex(): \yii\web\Response
     {
         $variables = array(
             'title' => 'Citrus - Bindings',
-            'sections' => Citrus::getInstance()->bindings->getSections()
+            'sections' => Citrus::getInstance()->bindings->getSections(),
         );
 
         return $this->renderTemplate('citrus/bindings/index', $variables);
     }
 
-    public function actionSection()
+    public function actionSection(): \yii\web\Response
     {
         $bansSupported = Citrus::getInstance()->settings->bansSupported;
         $bindTypes = array('PURGE' => 'PURGE');
@@ -91,7 +85,7 @@ class BindingsController extends Controller
             'tabs' => [],
             'bindings' => [],
             'fullPageForm' => true,
-            'bansSupported' => $bansSupported
+            'bansSupported' => $bansSupported,
         ]);
 
         if (!empty($variables['sectionId'])) {
@@ -107,7 +101,7 @@ class BindingsController extends Controller
                 foreach ($variables['types'] as $type) {
                     $variables['tabs'][$type->id] = [
                         'label' => $type->name,
-                        'url' => '#type' . $type->id
+                        'url' => '#type' . $type->id,
                     ];
                     $variables['bindings'][$type->id] = [];
                 }
@@ -120,18 +114,17 @@ class BindingsController extends Controller
                 foreach ($bindings as $binding) {
                     $variables['bindings'][$binding->typeId][$binding->id] = [
                         'bindType' => $binding->bindType,
-                        'query' => $binding->query
+                        'query' => $binding->query,
                     ];
                 }
             }
 
             return $this->renderTemplate('citrus/bindings/section', $variables);
-        } else {
-            throw new HttpException(400, Craft::t('app', 'Param sectionId must not be empty.'));
         }
+        throw new HttpException(400, Craft::t('app', 'Param sectionId must not be empty.'));
     }
 
-    public function actionSave()
+    public function actionSave(): void
     {
         $sectionId = (int) Craft::$app->request->getRequiredParam('sectionId');
         $bindings = [];
@@ -145,7 +138,7 @@ class BindingsController extends Controller
                     foreach ($data as $values) {
                         $bindings[$typeId][] = [
                             'bindType' => $values['bindType'],
-                            'query' => $values['query']
+                            'query' => $values['query'],
                         ];
                     }
                 }
@@ -164,13 +157,13 @@ class BindingsController extends Controller
         $this->redirect('citrus/bindings');
     }
 
-    public function actionTest()
+    public function actionTest(): void
     {
         $element = Craft::$app->elements->getElementById(
             (int) Craft::$app->request->getQueryParam('id')
         );
 
-        if (get_class($element->type) != 'craft\models\EntryType') {
+        if (get_class($element->type) !== 'craft\models\EntryType') {
             throw(new Exception('Element tyoe is not an Entry. Only entries are supported.'));
         }
 
@@ -185,7 +178,7 @@ class BindingsController extends Controller
             $element->type->id,
             array(
                 BindingsRecord::TYPE_BAN,
-                BindingsRecord::TYPE_FULLBAN
+                BindingsRecord::TYPE_FULLBAN,
             )
         );
 
@@ -193,7 +186,7 @@ class BindingsController extends Controller
             $settings = array(
                 'description' => null,
                 'uris' => $uris,
-                'debug' => true
+                'debug' => true,
             );
             Craft::$app->queue->push(new PurgeJob($settings));
         }
@@ -202,7 +195,7 @@ class BindingsController extends Controller
             $settings = array(
                 'description' => null,
                 'bans' => $bans,
-                'debug' => true
+                'debug' => true,
             );
             Craft::$app->queue->push(new BanJob($settings));
         }

@@ -10,14 +10,14 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\web\Controller;
+use dentsucreativeuk\citrus\Citrus;
 use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\BanJob;
 
-use \njpanderson\VarnishConnect;
+use njpanderson\VarnishConnect;
 
 /**
  * BanController Controller
@@ -41,17 +41,11 @@ use \njpanderson\VarnishConnect;
  */
 class BanController extends Controller
 {
-
     use BaseHelper;
 
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
     protected array|int|bool $allowAnonymous = ['list', 'test'];
 
     // Public Methods
@@ -60,8 +54,9 @@ class BanController extends Controller
     private $query;
     private $isFullQuery;
     private $hostId;
-    private $socket;
+    private ?\njpanderson\VarnishConnect\Socket $socket = null;
 
+    #[\Override]
     public function init(): void
     {
         parent::init();
@@ -71,12 +66,12 @@ class BanController extends Controller
         $this->isFullQuery = Craft::$app->request->getQueryParam('f', false);
     }
 
-    public function actionTest()
+    public function actionTest(): void
     {
         if (!empty($this->query)) {
             $bans = array(
                 'query' => $this->query,
-                'full' => $this->isFullQuery
+                'full' => $this->isFullQuery,
             );
         } else {
             $bans = array(
@@ -84,39 +79,39 @@ class BanController extends Controller
                 array('query' => '.*\.gif', 'hostId' => $this->hostId),
                 array('query' => '^/testing', 'hostId' => $this->hostId),
                 array('query' => 'admin', 'hostId' => $this->hostId),
-                array('query' => '\?.+$', 'hostId' => $this->hostId)
+                array('query' => '\?.+$', 'hostId' => $this->hostId),
             );
         }
 
         $settings = array(
             'description' => null,
             'bans' => $bans,
-            'debug' => true
+            'debug' => true,
         );
 
         Craft::$app->queue->push(new BanJob($settings));
         Craft::$app->getQueue()->run();
     }
 
-    public function actionList()
+    public function actionList(): \yii\web\Response
     {
         $variables = array(
-            'hostList' => array()
+            'hostList' => array(),
         );
         $hostId = $this->getPostWithDefault('host', null);
 
-        foreach ($this->getVarnishHosts() as $id => $host) {
-            if (($id === $hostId || $hostId === null) && $host['canDoAdminBans']) {
+        foreach ($this->getVarnishHosts() as $id => $varnishHost) {
+            if (($id === $hostId || $hostId === null) && $varnishHost['canDoAdminBans']) {
                 $this->socket = new VarnishConnect\Socket(
-                    $host['adminIP'],
-                    $host['adminPort'],
-                    $host['adminSecret']
+                    $varnishHost['adminIP'],
+                    $varnishHost['adminPort'],
+                    $varnishHost['adminSecret']
                 );
 
                 try {
                     $this->socket->connect();
                     $variables['hostList'][$id]['banList'] = $this->socket->getBanList();
-                    $variables['hostList'][$id]['hostName'] = $host['hostName'];
+                    $variables['hostList'][$id]['hostName'] = $varnishHost['hostName'];
                     $variables['hostList'][$id]['id'] = $id;
                 } catch (\Exception $e) {
                     $variables['hostList'][$id]['adminError'] = $e->getMessage();

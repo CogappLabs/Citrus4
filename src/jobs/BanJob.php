@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\jobs;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\queue\BaseJob;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\BanHelper;
 
@@ -57,13 +57,13 @@ class BanJob extends BaseJob
     // Public Methods
     // =========================================================================
 
+    #[\Override]
     public function execute($queue): void
     {
         $this->ban = new BanHelper();
 
         $totalSteps = count($this->bans);
-        for ($step = 0; $step < $totalSteps; $step++)
-        {
+        for ($step = 0; $step < $totalSteps; $step++) {
             $this->setProgress($queue, $step / $totalSteps);
 
             if (!isset($this->bans[$step]['full'])) {
@@ -92,6 +92,7 @@ class BanJob extends BaseJob
      *
      * @return string The default task description
      */
+    #[\Override]
     protected function defaultDescription(): string
     {
         return Craft::t('citrus', 'Banning from Varnish cache');

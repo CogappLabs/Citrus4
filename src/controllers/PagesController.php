@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\web\Controller;
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * PagesController Controller
@@ -37,16 +37,10 @@ use craft\web\Controller;
  */
 class PagesController extends Controller
 {
-
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = ['index'];
+    protected array|int|bool $allowAnonymous = ['index'];
 
     // Public Methods
     // =========================================================================
@@ -54,10 +48,10 @@ class PagesController extends Controller
     /**
      * Handle a request going to our plugin's index action URL, e.g.: actions/controllersExample
      */
-    public function actionIndex()
+    public function actionIndex(): \yii\web\Response
     {
         $variables = array(
-            'title' => 'Citrus - Pages'
+            'title' => 'Citrus - Pages',
         );
 
         return $this->renderTemplate('citrus/pages/index', $variables);

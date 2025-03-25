@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\jobs;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\queue\BaseJob;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\PurgeHelper;
 
@@ -63,6 +63,7 @@ class PurgeJob extends BaseJob
      *
      * More info: https://github.com/yiisoft/yii2-queue
      */
+    #[\Override]
     public function execute($queue): void
     {
         $this->purge = new PurgeHelper();
@@ -90,6 +91,7 @@ class PurgeJob extends BaseJob
      *
      * @return string The default task description
      */
+    #[\Override]
     protected function defaultDescription(): string
     {
         return Craft::t('citrus', 'Purging Varnish cache');

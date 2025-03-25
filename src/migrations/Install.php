@@ -10,11 +10,11 @@
 
 namespace dentsucreativeuk\citrus\migrations;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\config\DbConfig;
 use craft\db\Migration;
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * citrus Install Migration
@@ -53,6 +53,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
+    #[\Override]
     public function safeUp()
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
@@ -77,6 +78,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
+    #[\Override]
     public function safeDown()
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
@@ -97,7 +99,7 @@ class Install extends Migration
     {
         $tablesCreated = false;
 
-    // citrus_bindings table
+        // citrus_bindings table
         $tableSchema = Craft::$app->db->schema->getTableSchema('{{%citrus_bindings}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
@@ -112,12 +114,12 @@ class Install extends Migration
                     'sectionId' => $this->integer()->notNull(),
                     'typeId' => $this->integer()->notNull(),
                     'query' => $this->string(255)->notNull()->defaultValue(''),
-                    'bindType' => "ENUM('PURGE', 'BAN', 'FULBAN')"
+                    'bindType' => "ENUM('PURGE', 'BAN', 'FULBAN')",
                 ]
             );
         }
 
-    // citrus_entry table
+        // citrus_entry table
         $tableSchema = Craft::$app->db->schema->getTableSchema('{{%citrus_entry}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
@@ -135,7 +137,7 @@ class Install extends Migration
             );
         }
 
-    // citrus_uri table
+        // citrus_uri table
         $tableSchema = Craft::$app->db->schema->getTableSchema('{{%citrus_uri}}');
         if ($tableSchema === null) {
             $tablesCreated = true;
@@ -163,50 +165,33 @@ class Install extends Migration
      */
     protected function createIndexes()
     {
-    // citrus_bindings table
+        // citrus_bindings table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_bindings}}',
-                'sectionId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_bindings}}',
             'sectionId'
         );
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_bindings}}',
-                'typeId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_bindings}}',
             'typeId'
         );
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
 
-    // citrus_entry table
+        // citrus_entry table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_entry}}',
-                'uriId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_entry}}',
             'uriId',
             true
         );
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_entry}}',
-                'entryId',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_entry}}',
             'entryId',
             true
@@ -214,25 +199,19 @@ class Install extends Migration
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
 
-    // citrus_uri table
+        // citrus_uri table
         $this->createIndex(
-            $this->db->getIndexName(
-                '{{%citrus_uri}}',
-                'uriHash',
-                true
-            ),
+            $this->db->getIndexName(),
             '{{%citrus_uri}}',
             'uriHash'
         );
         // Additional commands depending on the db driver
         switch ($this->driver) {
             case DbConfig::DRIVER_MYSQL:
-                break;
             case DbConfig::DRIVER_PGSQL:
                 break;
         }
@@ -248,7 +227,7 @@ class Install extends Migration
 
     // citrus_entry table
         $this->addForeignKey(
-            $this->db->getForeignKeyName('{{%citrus_entry}}', 'uriId'),
+            $this->db->getForeignKeyName(),
             '{{%citrus_entry}}',
             'uriId',
             '{{%citrus_uri}}',
@@ -274,13 +253,13 @@ class Install extends Migration
      */
     protected function removeTables()
     {
-    // citrus_bindings table
+        // citrus_bindings table
         $this->dropTableIfExists('{{%citrus_bindings}}');
 
-    // citrus_entry table
+        // citrus_entry table
         $this->dropTableIfExists('{{%citrus_entry}}');
 
-    // citrus_uri table
+        // citrus_uri table
         $this->dropTableIfExists('{{%citrus_uri}}');
     }
 }

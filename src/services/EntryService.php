@@ -10,10 +10,9 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
-use Craft;
 use craft\base\Component;
+
+use dentsucreativeuk\citrus\Citrus;
 
 /**
  * EntryService Service
@@ -36,13 +35,13 @@ class EntryService extends Component
     public function getAllByEntryId($entryId)
     {
         return Citrus_EntryRecord::model()->findAllByAttributes(array(
-          'entryId' => $entryId
+          'entryId' => $entryId,
         ));
     }
 
     public function saveEntry(
-        Citrus_EntryRecord $entry
-    ) {
-        $entry->save();
+        Citrus_EntryRecord $citrusEntryRecord,
+    ): void {
+        $citrusEntryRecord->save();
     }
 }

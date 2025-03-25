@@ -29,8 +29,8 @@ return [
             'hostName' => '',
             'adminIP' => '',
             'adminPort' => '',
-            'adminSecret' => ''
-        ]
+            'adminSecret' => '',
+        ],
     ],
     'purgeEnabled' => '',
     'purgeRelated' => '',
@@ -38,5 +38,5 @@ return [
     'purgeUriMap' => '',
     'bansSupported' => '',
     'banQueryHeader' => '',
-    'adminCookieName' => ''
+    'adminCookieName' => '',
 ];

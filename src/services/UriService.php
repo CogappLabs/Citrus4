@@ -10,13 +10,13 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\base\Component;
+use dentsucreativeuk\citrus\Citrus;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\records\EntryRecord;
 use dentsucreativeuk\citrus\records\UriRecord;
-use dentsucreativeuk\citrus\helpers\BaseHelper;
 
 /**
  * UriService Service
@@ -38,7 +38,7 @@ class UriService extends Component
     // Public Methods
     // =========================================================================
 
-    public function saveURIEntry(string $pageUri, int $entryId, string $locale)
+    public function saveURIEntry(string $pageUri, int $entryId, string $locale): void
     {
         $uriHash = $this->hash($pageUri);
 
@@ -49,20 +49,20 @@ class UriService extends Component
 
         $uri->uri = $pageUri;
         $uri->uriHash = $uriHash;
-        $uri->locale = (!empty($locale) ? $locale : null);
+        $uri->locale = ($locale === '' || $locale === '0' ? null : $locale);
 
         $this->saveURI($uri);
 
         // Save Entry record
-        $entry = new EntryRecord();
+        $entryRecord = new EntryRecord();
 
-        $entry->uriId = $uri->id;
-        $entry->entryId = $entryId;
+        $entryRecord->uriId = $uri->id;
+        $entryRecord->entryId = $entryId;
 
-        Craft::$app->citrus_entry->saveEntry($entry);
+        Craft::$app->citrus_entry->saveEntry($entryRecord);
     }
 
-    public function deleteURI(string $pageUri)
+    public function deleteURI(string $pageUri): void
     {
         $uriHash = $this->hash($pageUri);
 
@@ -88,7 +88,7 @@ class UriService extends Component
         }
 
         $uri = UriRecord::model()->findByAttributes(array(
-          'uriHash' => $uriHash
+          'uriHash' => $uriHash,
         ));
 
         if ($uri !== null) {
@@ -103,14 +103,14 @@ class UriService extends Component
         return UriRecord::find()->with(array(
             'entries' => array(
                 'select' => false,
-                'condition' => 'entryId = ' . $entryId
-            )
+                'condition' => 'entryId = ' . $entryId,
+            ),
         ))->all();
     }
 
     public function saveURI(
-        UriRecord $uri
-    ) {
-        $uri->save();
+        UriRecord $uriRecord,
+    ): void {
+        $uriRecord->save();
     }
 }

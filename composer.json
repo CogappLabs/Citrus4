@@ -2,7 +2,7 @@
     "name": "dentsucreativeuk\/citrus",
     "description": "Automatically purge and ban cached elements in Varnish",
     "type": "craft-plugin",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^4.0.0",
+        "craftcms/cms": "^5.0.0",
         "whitespace\/varnish-connect": "^0.0.1"
     },
     "autoload": {
@@ -30,11 +30,37 @@
           "dentsucreativeuk\\citrus\\": "src/"
         }
     },
+    "scripts": {
+        "ecs": "ecs check",
+        "ecs:fix": "ecs check --fix",
+        "phpstan": "phpstan --memory-limit=1G",
+        "rector": "rector process --dry-run",
+        "rector:fix": "rector process"
+    },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/CogappLabs/varnish-connect.git"
+      }
+    ],
     "extra": {
         "handle": "citrus",
         "name": "Citrus",
         "developer": "Dentsu Creative UK",
         "documentationUrl": "",
         "class": "dentsucreativeuk\\citrus\\Citrus"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "craftcms/phpstan": "dev-main",
+        "craftcms/rector": "dev-main",
+        "craftcms/ecs": "dev-main"
     }
 }

@@ -10,10 +10,10 @@
 
 namespace dentsucreativeuk\citrus\controllers;
 
-use dentsucreativeuk\citrus\Citrus;
-
 use Craft;
+
 use craft\web\Controller;
+use dentsucreativeuk\citrus\Citrus;
 
 use dentsucreativeuk\citrus\helpers\BaseHelper;
 
@@ -39,13 +39,8 @@ use dentsucreativeuk\citrus\helpers\BaseHelper;
  */
 class CitrusController extends Controller
 {
-
     use BaseHelper;
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     * @access protected
-     */
     protected array|int|bool $allowAnonymous = ['actionIndex'];
 
     private $socket;
@@ -62,19 +57,19 @@ class CitrusController extends Controller
             'tabs' => [
                 0 => [
                     'label' => 'Purge',
-                    'url' => '#tab-purge'
-                ]
+                    'url' => '#tab-purge',
+                ],
             ],
             'bansSupported' => $bansSupported,
             'hosts' => $this->getVarnishHosts(),
-            'adminHosts' => $this->getVarnishAdminHosts()
+            'adminHosts' => $this->getVarnishAdminHosts(),
         ]);
 
         if ($bansSupported) {
-            array_push($variables['tabs'], [
+            $variables['tabs'][] = [
                 'label' => 'Ban',
-                'url' => '#tab-ban'
-            ]);
+                'url' => '#tab-ban',
+            ];
         }
 
         if (Craft::$app->request->getBodyParam('purgeban_type')) {
@@ -104,13 +99,12 @@ class CitrusController extends Controller
                 'responses' => ($responses),
                 'CSRF' => array(
                     'name' => Craft::$app->config->general->csrfTokenName,
-                    'value' => Craft::$app->request->getCsrfToken()
-                )
+                    'value' => Craft::$app->request->getCsrfToken(),
+                ),
             ));
-        } else {
-            Craft::$app->getSession()->setNotice(Craft::t('app','Cache cleared.'));
-
-            $this->redirect('citrus');
         }
+        Craft::$app->getSession()->setNotice(Craft::t('app','Cache cleared.'));
+        $this->redirect('citrus');
+        return null;
     }
 }

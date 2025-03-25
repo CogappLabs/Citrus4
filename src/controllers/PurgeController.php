@@ -13,8 +13,8 @@ namespace dentsucreativeuk\citrus\controllers;
 use Craft;
 use craft\web\Controller;
 
-use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\Citrus;
+use dentsucreativeuk\citrus\helpers\BaseHelper;
 use dentsucreativeuk\citrus\jobs\PurgeJob;
 
 /**
@@ -54,9 +54,10 @@ class PurgeController extends Controller
     // Public Methods
     // =========================================================================
 
-    private $elementId;
-    private $numUris;
+    private ?int $elementId = null;
+    private ?int $numUris = null;
 
+    #[\Override]
     public function init(): void
     {
         parent::init();
@@ -65,29 +66,29 @@ class PurgeController extends Controller
         $this->numUris = (int) Craft::$app->request->getQueryParam('n', 10);
     }
 
-    public function actionTest()
+    public function actionTest(): void
     {
         $this->requireAdmin();
 
-        if ($this->elementId) {
+        if ($this->elementId !== null && $this->elementId !== 0) {
             $this->testElementId($this->elementId);
         } else {
             $this->testUris($this->numUris);
         }
     }
 
-    private function testElementId($id)
+    private function testElementId(int $id): void
     {
         $element = Craft::$app->elements->getElementById($id);
 
         echo "Purging element \"{$element->title}\" ({$element->id})<br/>\r\n";
 
-        $tasks = Citrus::getInstance()->citrus->purgeElement($element, true, true);
+        Citrus::getInstance()->citrus->purgeElement($element, true, true);
 
         Craft::$app->getQueue()->run();
     }
 
-    private function testUris($num)
+    private function testUris(int $num): void
     {
         $settings = array(
             'description' => null,
@@ -103,14 +104,15 @@ class PurgeController extends Controller
         Craft::$app->getQueue()->run();
     }
 
-    private function fillUris($prefix, int $count = 1) {
+    /**
+     * @return mixed[]
+     */
+    private function fillUris(string $prefix, int $count = 1): array
+    {
         $result = array();
 
         for ($a = 0; $a < $count; $a += 1) {
-            array_push(
-                $result,
-                Citrus::getInstance()->citrus->makeVarnishUri($prefix . '?n=' . $this->uuid())
-            );
+            $result[] = Citrus::getInstance()->citrus->makeVarnishUri($prefix . '?n=' . $this->uuid());
         }
 
         return $result;
