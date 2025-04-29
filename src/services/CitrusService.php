@@ -76,18 +76,18 @@ class CitrusService extends Component
                 );
 
                 if ($element instanceof \craft\elements\Entry) {
+                    if ($element->section->id === null) {
+                        continue;
+                    }
                     if ($element->type->id === null) {
                         continue;
-                    };
-
+                    }
                     $uris = array_merge($uris, $this->getTagUris($element->id));
-
                     $uris = array_merge($uris, $this->getBindingQueries(
                         $element->section->id,
                         $element->type->id,
                         BindingsRecord::TYPE_PURGE
                     ));
-
                     $bans = array_merge($bans, $this->getBindingQueries(
                         $element->section->id,
                         $element->type->id,
