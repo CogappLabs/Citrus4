@@ -89,7 +89,7 @@ class BindingsController extends Controller
         ]);
 
         if (!empty($variables['sectionId'])) {
-            $variables['section'] = Craft::$app->sections->getSectionById(
+            $variables['section'] = Craft::$app->getEntries()->getSectionById(
                 $variables['sectionId']
             );
 

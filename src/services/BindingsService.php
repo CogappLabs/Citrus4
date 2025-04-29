@@ -64,7 +64,7 @@ class BindingsService extends Component
     {
         $result = [];
 
-        $sections = Craft::$app->sections->getAllSections();
+        $sections = Craft::$app->getEntries()->getAllSections();
         $bindings = $this->getBindingCounts();
 
         foreach ($sections as $section) {
