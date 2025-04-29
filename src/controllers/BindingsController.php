@@ -89,7 +89,7 @@ class BindingsController extends Controller
         ]);
 
         if (!empty($variables['sectionId'])) {
-            $variables['section'] = Craft::$app->sections->getSectionById(
+            $variables['section'] = Craft::$app->getEntries()->getSectionById(
                 $variables['sectionId']
             );
 
@@ -159,7 +159,7 @@ class BindingsController extends Controller
 
     public function actionTest(): void
     {
-        $element = Craft::$app->elements->getElementById(
+        $element = Craft::$app->getElements()->getElementById(
             (int) Craft::$app->request->getQueryParam('id')
         );
 

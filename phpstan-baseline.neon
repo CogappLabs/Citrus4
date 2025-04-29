@@ -61,11 +61,6 @@ parameters:
 			path: src/controllers/BindingsController.php
 
 		-
-			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$sections\\.$#"
-			count: 1
-			path: src/controllers/BindingsController.php
-
-		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$bindings\\.$#"
 			count: 4
 			path: src/controllers/BindingsController.php
@@ -261,11 +256,6 @@ parameters:
 			path: src/records/UriRecord.php
 
 		-
-			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$sections\\.$#"
-			count: 1
-			path: src/services/BindingsService.php
-
-		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\records\\\\BindingsRecord\\:\\:\\$bindType\\.$#"
 			count: 1
 			path: src/services/BindingsService.php
@@ -344,11 +334,6 @@ parameters:
 			message: "#^Parameter \\$citrusEntryRecord of method dentsucreativeuk\\\\citrus\\\\services\\\\EntryService\\:\\:saveEntry\\(\\) has invalid type dentsucreativeuk\\\\citrus\\\\services\\\\Citrus_EntryRecord\\.$#"
 			count: 1
 			path: src/services/EntryService.php
-
-		-
-			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$citrus_entry\\.$#"
-			count: 1
-			path: src/services/UriService.php
 
 		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"

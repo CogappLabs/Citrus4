@@ -10,8 +10,6 @@
 
 namespace dentsucreativeuk\citrus\services;
 
-use Craft;
-
 use craft\base\Component;
 use dentsucreativeuk\citrus\Citrus;
 use dentsucreativeuk\citrus\helpers\BaseHelper;
@@ -59,7 +57,7 @@ class UriService extends Component
         $entryRecord->uriId = $uri->id;
         $entryRecord->entryId = $entryId;
 
-        Craft::$app->citrus_entry->saveEntry($entryRecord);
+        $entryRecord->save();
     }
 
     public function deleteURI(string $pageUri): void
