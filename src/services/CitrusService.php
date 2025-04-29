@@ -76,6 +76,10 @@ class CitrusService extends Component
                 );
 
                 if ($element instanceof \craft\elements\Entry) {
+                    if ($element->type->id === null) {
+                        continue;
+                    };
+
                     $uris = array_merge($uris, $this->getTagUris($element->id));
 
                     $uris = array_merge($uris, $this->getBindingQueries(
