@@ -336,11 +336,6 @@ parameters:
 			path: src/services/EntryService.php
 
 		-
-			message: "#^Access to an undefined property craft\\\\console\\\\Application\\|craft\\\\web\\\\Application\\:\\:\\$citrus_entry\\.$#"
-			count: 1
-			path: src/services/UriService.php
-
-		-
 			message: "#^Access to an undefined property dentsucreativeuk\\\\citrus\\\\Citrus\\:\\:\\$hosts\\.$#"
 			count: 1
 			path: src/services/UriService.php
