@@ -159,7 +159,7 @@ class BindingsController extends Controller
 
     public function actionTest(): void
     {
-        $element = Craft::$app->elements->getElementById(
+        $element = Craft::$app->getElements()->getElementById(
             (int) Craft::$app->request->getQueryParam('id')
         );
 

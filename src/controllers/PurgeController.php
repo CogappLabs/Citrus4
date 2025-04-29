@@ -79,7 +79,7 @@ class PurgeController extends Controller
 
     private function testElementId(int $id): void
     {
-        $element = Craft::$app->elements->getElementById($id);
+        $element = Craft::$app->getElements()->getElementById($id);
 
         echo "Purging element \"{$element->title}\" ({$element->id})<br/>\r\n";
 
