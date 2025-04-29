@@ -76,7 +76,7 @@ class CitrusService extends Component
                 );
 
                 if ($element instanceof \craft\elements\Entry) {
-                    if ($element->section->id === null) {
+                    if (!isset($element->section->id)) {
                         continue;
                     }
                     if ($element->type->id === null) {
